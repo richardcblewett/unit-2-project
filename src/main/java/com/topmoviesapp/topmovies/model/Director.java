@@ -1,10 +1,9 @@
 package com.topmoviesapp.topmovies.model;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+@Entity
+@Table(name = "directors")
 public class Director {
     @Id
     @Column
@@ -13,6 +12,9 @@ public class Director {
 
     @Column
     private String directorName;
+
+    public Director() {
+    }
 
     public Director(Long directorID, String directorName) {
         this.directorID = directorID;
