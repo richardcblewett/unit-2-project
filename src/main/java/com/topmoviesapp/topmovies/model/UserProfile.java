@@ -1,6 +1,9 @@
 package com.topmoviesapp.topmovies.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.apache.catalina.User;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 
@@ -16,5 +19,12 @@ public class UserProfile {
     @JsonIgnore
     @OneToOne(mappedBy = "userProfile")
     private User user;
-    
+
+    @OneToMany(mappedBy = "userProfile")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<Movie> movieList;
+
+    public UserProfile(){
+
+    }
 }
