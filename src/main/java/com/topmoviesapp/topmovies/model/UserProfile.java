@@ -27,4 +27,28 @@ public class UserProfile {
     public UserProfile(){
 
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<Movie> getMovieList() {
+        return movieList;
+    }
+
+    public void setMovieList(List<Movie> movieList) {
+        this.movieList = movieList;
+    }
 }
