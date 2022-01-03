@@ -8,5 +8,10 @@ import javax.persistence.*;
 @Table(name = "profiles")
 public class UserProfile {
 
+    @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
 
 }
