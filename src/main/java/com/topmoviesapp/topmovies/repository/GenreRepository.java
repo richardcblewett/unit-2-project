@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface GenreRepository extends JpaRepository<Genre,Long> {
     Genre findByUserIdAndName(Long userID, String Name);
-    Genre findByUserIdAndGenreId(Long userID, Long genreID);
+    Genre findByUserIdAndId(Long userID, Long genreID);
     List<Genre> findByUserID(Long userID);
 }
