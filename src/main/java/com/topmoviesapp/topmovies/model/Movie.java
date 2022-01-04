@@ -36,6 +36,7 @@ public class Movie {
     @JsonIgnore
     private UserProfile userProfile;
 
+
     public Movie(Long id, String title, Long rank, Long releaseYear, Genre genre, Director director) {
         this.id = id;
         this.title = title;
@@ -96,6 +97,14 @@ public class Movie {
         this.director = director;
     }
 
+
+    public UserProfile getUserProfile() {
+        return userProfile;
+    }
+
+    public void setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
+    }
 
     //TODO later with API
     //@Column
