@@ -57,14 +57,14 @@ public class MovieController {
 
 
     @GetMapping("/movies/{movieId}/genre")
-    public Genre getGenre(@PathVariable Long movieId){
+    public Genre getGenre(@PathVariable Long movieId) {
         return movieService.getGenre(movieId);
+    }
 
   // http://localhost:9092/api/movies/"{movieId}"
-    @DeleteMapping(path = "movies/{movieId}")
+    @DeleteMapping(path = "/movies/{movieId}")
     public Movie deleteMovie(@PathVariable(value = "movieId") Long movieId) {
         LOGGER.info("calling deleteMovie method from controller");
         return movieService.deleteMovie(movieId);
-
     }
 }
