@@ -1,6 +1,8 @@
 package com.topmoviesapp.topmovies.service;
 
 
+import com.topmoviesapp.topmovies.exception.InformationExistsException;
+import com.topmoviesapp.topmovies.exception.InformationMissingException;
 import com.topmoviesapp.topmovies.model.User;
 import com.topmoviesapp.topmovies.model.UserProfile;
 import com.topmoviesapp.topmovies.model.request.LoginRequest;
@@ -52,9 +54,7 @@ public class UserService {
             userProfileRepository.save(userProfile);
             return userObject;
         } else {
-            // Throw error here
-            // Change error below
-            throw new RuntimeException();
+            throw new InformationExistsException("a user account for " + userObject.getEmailAddress() + " already exists");
         }
     }
 

@@ -1,7 +1,6 @@
 package com.topmoviesapp.topmovies.service;
 
 import com.topmoviesapp.topmovies.model.Genre;
-import com.topmoviesapp.topmovies.repository.DirectorRepository;
 import com.topmoviesapp.topmovies.repository.GenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +21,6 @@ public class GenreService {
             Genre genreObject = new Genre();
             genreObject.setGenreName(name);
             return genreRepository.save(genreObject);
-            //return genreObject;
         } else {
             return genreRepository.findGenreByGenreName(name);
         }
