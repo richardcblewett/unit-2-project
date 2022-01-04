@@ -26,7 +26,7 @@ public class Director {
     }
 
     public void setDirectorID(Long directorID) {
-        this.id = id;
+        this.id = directorID;
     }
 
     public String getDirectorName() {
