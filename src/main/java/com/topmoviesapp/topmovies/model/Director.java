@@ -8,7 +8,7 @@ public class Director {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long directorID;
+    private Long id;
 
     @Column
     private String directorName;
@@ -17,16 +17,16 @@ public class Director {
     }
 
     public Director(Long directorID, String directorName) {
-        this.directorID = directorID;
+        this.id = directorID;
         this.directorName = directorName;
     }
 
     public Long getDirectorID() {
-        return directorID;
+        return id;
     }
 
     public void setDirectorID(Long directorID) {
-        this.directorID = directorID;
+        this.id = id;
     }
 
     public String getDirectorName() {
