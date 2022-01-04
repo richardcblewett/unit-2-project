@@ -24,9 +24,9 @@ public class MovieService {
     public List<Movie> getMovies() {
         LOGGER.info("calling getMovies method from service");
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<Movie> movies = movieRepository.findByUserProfileId(userDetails.getUser().getId());
+        List<Movie> movies = movieRepository.findByUserProfileId(userDetails.getUser().getUserProfile().getId());
         if (movies.isEmpty()) {
-            throw new InformationMissingException("movies missing for user with id: " + userDetails.getUser().getId());
+            throw new InformationMissingException("movies missing for user with id: " + userDetails.getUser().getUserProfile().getId());
         } else {
             return movies;
         }
@@ -36,7 +36,7 @@ public class MovieService {
     public Movie getMovie(Long movieId) {
         LOGGER.info("calling getMovie method from service");
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Movie movie = movieRepository.findByUserProfileIdAndId(userDetails.getUser().getId(), movieId);
+        Movie movie = movieRepository.findByUserProfileIdAndId(userDetails.getUser().getUserProfile().getId(), movieId);
         if (movie != null) {
             return movie;
         } else {
