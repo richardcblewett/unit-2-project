@@ -40,6 +40,7 @@ public class MovieController {
     // http://localhost:9092/api/movies/
     @PostMapping("/movies")
     public Movie createMovie(@RequestBody Movie movie){
+        LOGGER.info("calling createMovie method from controller");
         return movieService.createMovie(movie);
     }
 
@@ -47,17 +48,22 @@ public class MovieController {
     // http://localhost:9092/api/movies/{movie-id}
     @PutMapping("/movies/{movieId}")
     public Movie updateMovie(@PathVariable Long movieId, @RequestBody Movie movieObject){
+        LOGGER.info("calling updateMovie method from controller");
         return movieService.updateMovie(movieId, movieObject);
     }
 
+    // http://localhost:9092/api/movies/{movie-id}/director
     @GetMapping("/movies/{movieId}/director")
     public Director getDirector(@PathVariable Long movieId) {
+        LOGGER.info("calling getDirector method from controller");
         return movieService.getDirector(movieId);
     }
 
 
+    // http://localhost:9092/api/movies/{movie-id}/genre
     @GetMapping("/movies/{movieId}/genre")
     public Genre getGenre(@PathVariable Long movieId) {
+        LOGGER.info("calling getGenre method from controller");
         return movieService.getGenre(movieId);
     }
 

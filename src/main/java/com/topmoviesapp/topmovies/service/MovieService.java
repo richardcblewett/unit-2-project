@@ -63,6 +63,7 @@ public class MovieService {
     }
 
     public Movie createMovie(Movie movieObject) {
+        LOGGER.info("calling createMovie method from service");
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Movie movie = movieRepository.findByUserProfileIdAndTitle(userDetails.getUser().getUserProfile().getId(), movieObject.getTitle());
         if (movie != null) {
@@ -78,6 +79,7 @@ public class MovieService {
 
 
     public Movie updateMovie(Long movieId, Movie movieObject) {
+        LOGGER.info("calling updateMovie method from service");
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Movie movie = movieRepository.findByUserProfileIdAndId(userDetails.getUser().getUserProfile().getId(), movieId);
         if (movie == null) {
@@ -94,6 +96,7 @@ public class MovieService {
     }
 
     public Director getDirector(Long movieId) {
+        LOGGER.info("calling getDirector method from service");
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Movie movie = movieRepository.findByUserProfileIdAndId(userDetails.getUser().getUserProfile().getId(), movieId);
         if (movie == null) {
@@ -116,6 +119,7 @@ public class MovieService {
     }
 
     public Genre getGenre(Long movieId) {
+        LOGGER.info("calling getGenre method from service");
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Movie movie = movieRepository.findByUserProfileIdAndId(userDetails.getUser().getUserProfile().getId(), movieId);
         if (movie == null) {
