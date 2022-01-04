@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface GenreRepository extends JpaRepository<Genre,Long> {
-    Genre findByUserIDAndName(Long userID, String Name);
-    Genre findByUserIDAndGenreID(Long userID, Long genreID);
+    Genre findByUserIdAndName(Long userID, String Name);
+    Genre findByUserIdAndGenreId(Long userID, Long genreID);
     List<Genre> findByUserID(Long userID);
 }
