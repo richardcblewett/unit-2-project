@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface DirectorRepository extends JpaRepository<Director,Long> {
     Director findByUserIdAndName(Long userID, String Name);
-    Director findByDirectorIdAndUserId(Long directorID, Long userID);
+    Director findByIdAndUserId(Long directorID, Long userID);
     List<Director> findByUserId(Long userID);
 }

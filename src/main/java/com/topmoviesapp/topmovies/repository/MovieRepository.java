@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface MovieRepository extends JpaRepository<Movie, Long> {
     Movie findByUserIdAndName(Long userID, String name);
-    Movie findByUserIdAndMovieId(Long userID, Long movieID);
+    Movie findByUserIdAndId(Long userID, Long movieID);
     List<Movie> findByUserId();
-    List<Movie> findByUserIdAndGenre(Long userID, Long genreID);
+    List<Movie> findByUserIdAndGenreId(Long userID, Long genreID);
 }
