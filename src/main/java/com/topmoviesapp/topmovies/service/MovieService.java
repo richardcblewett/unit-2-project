@@ -90,4 +90,15 @@ public class MovieService {
             return movieRepository.save(movie);
         }
     }
+
+
+    public Director getDirector(Long movieId) {
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Movie movie = movieRepository.findByUserProfileIdAndId(userDetails.getUser().getUserProfile().getId(), movieId);
+        if (movie == null) {
+            throw new RuntimeException();//InformationMissingException("movies missing for user with id: " + userDetails.getUser().getUserProfile().getId());
+        } else {
+            return movie.getDirector();
+        }
+    }
 }

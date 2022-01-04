@@ -1,5 +1,6 @@
 package com.topmoviesapp.topmovies.controller;
 
+import com.topmoviesapp.topmovies.model.Director;
 import com.topmoviesapp.topmovies.model.Movie;
 import com.topmoviesapp.topmovies.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,5 +46,10 @@ public class MovieController {
     @PutMapping("/movies/{movieId}")
     public Movie updateMovie(@PathVariable Long movieId, @RequestBody Movie movieObject){
         return movieService.updateMovie(movieId, movieObject);
+    }
+
+    @GetMapping("/movies/{movieId}/director")
+    public Director getDirector(@PathVariable Long movieId) {
+        return movieService.getDirector(movieId);
     }
 }
