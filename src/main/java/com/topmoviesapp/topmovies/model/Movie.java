@@ -37,13 +37,11 @@ public class Movie {
     private UserProfile userProfile;
 
 
-    public Movie(Long id, String title, Long rank, Long releaseYear, Genre genre, Director director) {
+    public Movie(Long id, String title, Long rank, Long releaseYear) {
         this.id = id;
         this.title = title;
         this.rank = rank;
         this.releaseYear = releaseYear;
-        this.genre = genre;
-        this.director = director;
     }
 
     public Movie() {
