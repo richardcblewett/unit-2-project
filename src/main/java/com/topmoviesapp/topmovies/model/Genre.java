@@ -3,7 +3,7 @@ package com.topmoviesapp.topmovies.model;
 import javax.persistence.*;
 
 @Entity
-@Table
+@Table(name = "genres")
 public class Genre {
     @Id
     @Column
