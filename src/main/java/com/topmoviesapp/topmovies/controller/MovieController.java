@@ -1,5 +1,6 @@
 package com.topmoviesapp.topmovies.controller;
 
+import com.topmoviesapp.topmovies.model.Director;
 import com.topmoviesapp.topmovies.model.Movie;
 import com.topmoviesapp.topmovies.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,11 +49,15 @@ public class MovieController {
         return movieService.updateMovie(movieId, movieObject);
     }
 
-    // http://localhost:9092/api/movies/"{movieId}"
+    @GetMapping("/movies/{movieId}/director")
+    public Director getDirector(@PathVariable Long movieId) {
+        return movieService.getDirector(movieId);
+    }
+
+  // http://localhost:9092/api/movies/"{movieId}"
     @DeleteMapping(path = "movies/{movieId}")
     public Movie deleteMovie(@PathVariable(value = "movieId") Long movieId) {
         LOGGER.info("calling deleteMovie method from controller");
         return movieService.deleteMovie(movieId);
     }
-
 }

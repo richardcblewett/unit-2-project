@@ -93,7 +93,17 @@ public class MovieService {
         }
     }
 
-    public Movie deleteMovie(Long movieId) {
+    public Director getDirector(Long movieId) {
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Movie movie = movieRepository.findByUserProfileIdAndId(userDetails.getUser().getUserProfile().getId(), movieId);
+        if (movie == null) {
+            throw new RuntimeException();//InformationMissingException("movies missing for user with id: " + userDetails.getUser().getUserProfile().getId());
+        } else {
+            return movie.getDirector();
+        }
+  }
+
+  public Movie deleteMovie(Long movieId) {
         LOGGER.info("calling deleteMovie method from service");
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Movie movie = movieRepository.findByUserProfileIdAndId(userDetails.getUser().getUserProfile().getId(), movieId);
