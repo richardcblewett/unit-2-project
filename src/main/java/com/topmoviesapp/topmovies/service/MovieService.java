@@ -101,4 +101,14 @@ public class MovieService {
             return movie.getDirector();
         }
     }
+
+    public Genre getGenre(Long movieId) {
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Movie movie = movieRepository.findByUserProfileIdAndId(userDetails.getUser().getUserProfile().getId(), movieId);
+        if (movie == null) {
+            throw new RuntimeException();//InformationMissingException("movies missing for user with id: " + userDetails.getUser().getUserProfile().getId());
+        } else {
+            return movie.getGenre();
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package com.topmoviesapp.topmovies.controller;
 
 import com.topmoviesapp.topmovies.model.Director;
+import com.topmoviesapp.topmovies.model.Genre;
 import com.topmoviesapp.topmovies.model.Movie;
 import com.topmoviesapp.topmovies.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,5 +52,10 @@ public class MovieController {
     @GetMapping("/movies/{movieId}/director")
     public Director getDirector(@PathVariable Long movieId) {
         return movieService.getDirector(movieId);
+    }
+
+    @GetMapping("/movies/{movieId}/genre")
+    public Genre getGenre(@PathVariable Long movieId){
+        return movieService.getGenre(movieId);
     }
 }
