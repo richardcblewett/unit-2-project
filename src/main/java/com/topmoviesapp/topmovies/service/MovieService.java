@@ -73,4 +73,16 @@ public class MovieService {
             return movieRepository.save(movieObject);
         }
     }
+
+    public Movie deleteMovie(Long movieId) {
+        LOGGER.info("calling deleteMovie method from service");
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Movie movie = movieRepository.findByUserProfileIdAndId(userDetails.getUser().getUserProfile().getId(), movieId);
+        if (movie == null) {
+            throw new RuntimeException();//InformationMissingException("category with id " + categoryId + " does not exist");
+        } else {
+            movieRepository.deleteById(movieId);
+            return movie;
+        }
+    }
 }
