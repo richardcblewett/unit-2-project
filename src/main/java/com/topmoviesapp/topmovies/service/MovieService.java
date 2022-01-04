@@ -1,6 +1,8 @@
 package com.topmoviesapp.topmovies.service;
 
 import com.topmoviesapp.topmovies.model.Movie;
+import com.topmoviesapp.topmovies.repository.DirectorRepository;
+import com.topmoviesapp.topmovies.repository.GenreRepository;
 import com.topmoviesapp.topmovies.repository.MovieRepository;
 import com.topmoviesapp.topmovies.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,7 @@ public class MovieService {
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<Movie> movies = movieRepository.findByUserProfileId(userDetails.getUser().getUserProfile().getId());
         if (movies.isEmpty()) {
-            throw new InformationMissingException("movies missing for user with id: " + userDetails.getUser().getUserProfile().getId());
+            throw new RuntimeException();//InformationMissingException("movies missing for user with id: " + userDetails.getUser().getUserProfile().getId());
         } else {
             return movies;
         }
@@ -42,7 +44,7 @@ public class MovieService {
         if (movie != null) {
             return movie;
         } else {
-            throw new InformationMissingException("movie with id " + movieId + " does not exist");
+            throw new RuntimeException();//InformationMissingException("movie with id " + movieId + " does not exist");
           }
     }
     
