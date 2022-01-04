@@ -38,4 +38,8 @@ public class MovieController {
         return movieService.getMovie(movieId);
     }
 
+    @PostMapping("/movies")
+    public Movie createMovie(@RequestBody Movie movie){
+        return movieService.createMovie(movie);
+    }
 }

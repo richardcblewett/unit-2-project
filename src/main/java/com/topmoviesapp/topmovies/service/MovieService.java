@@ -13,6 +13,8 @@ import java.util.logging.Logger;
 @Service
 public class MovieService {
     private MovieRepository movieRepository;
+    private GenreRepository genreRepository;
+    private DirectorRepository directorRepository;
     private static final Logger LOGGER = Logger.getLogger(MovieService.class.getName());
 
     @Autowired
@@ -41,6 +43,18 @@ public class MovieService {
             return movie;
         } else {
             throw new InformationMissingException("movie with id " + movieId + " does not exist");
+          }
+    }
+    
+  public Movie createMovie(Movie movieObject) {
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Movie movie = movieRepository.findByUserProfileIdAndTitle(userDetails.getUser().getUserProfile().getId(), movieObject.getTitle());
+        if(movie != null){
+            // Include a throw error here
+            throw new RuntimeException();
+        } else {
+            movieObject.setUserProfile(userDetails.getUser().getUserProfile());
+            return movieRepository.save(movieObject);
         }
     }
 }

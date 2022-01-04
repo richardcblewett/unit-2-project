@@ -97,6 +97,7 @@ public class Movie {
         this.director = director;
     }
 
+
     public UserProfile getUserProfile() {
         return userProfile;
     }
