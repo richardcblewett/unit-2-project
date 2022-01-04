@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface DirectorRepository extends JpaRepository<Director,Long> {
-
+    Director findDirectorByDirectorName(String name);
 }

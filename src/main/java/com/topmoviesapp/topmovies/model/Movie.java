@@ -1,6 +1,7 @@
 package com.topmoviesapp.topmovies.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.topmoviesapp.topmovies.service.DirectorService;
 import org.hibernate.mapping.ToOne;
 
 import javax.persistence.*;
@@ -36,13 +37,13 @@ public class Movie {
     @JsonIgnore
     private UserProfile userProfile;
 
-
-    public Movie(Long id, String title, Long rank, Long releaseYear, Genre genre) {
+    public Movie(Long id, String title, Long rank, Long releaseYear, Genre genre,  Director director) {
         this.id = id;
         this.title = title;
         this.rank = rank;
         this.releaseYear = releaseYear;
         this.genre = genre;
+        this.director = director;
     }
 
     public Movie() {
