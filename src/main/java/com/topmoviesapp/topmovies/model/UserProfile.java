@@ -1,7 +1,6 @@
 package com.topmoviesapp.topmovies.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.apache.catalina.User;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 

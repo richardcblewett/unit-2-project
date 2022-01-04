@@ -1,5 +1,6 @@
 package com.topmoviesapp.topmovies.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.mapping.ToOne;
 
 import javax.persistence.*;
@@ -29,6 +30,11 @@ public class Movie {
     @ManyToOne
     @JoinColumn(name = "director_id")
     private Director director;
+
+    @ManyToOne
+    @JoinColumn(name="userprofile_id")
+    @JsonIgnore
+    private UserProfile userProfile;
 
     public Movie(Long movieID, String title, Long rank, Long releaseYear, Genre genre, Director director) {
         this.movieID = movieID;
