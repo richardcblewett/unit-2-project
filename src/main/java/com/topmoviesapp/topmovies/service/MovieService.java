@@ -73,4 +73,21 @@ public class MovieService {
             return movieRepository.save(movieObject);
         }
     }
+
+
+    public Movie updateMovie(Long movieId, Movie movieObject) {
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Movie movie = movieRepository.findByUserProfileIdAndId(userDetails.getUser().getUserProfile().getId(), movieId);
+        if(movie == null){
+            // Include a throw error here
+            throw new RuntimeException();
+        } else {
+            movie.setTitle(movieObject.getTitle());
+            movie.setRank(movieObject.getRank());
+            movie.setReleaseYear(movieObject.getReleaseYear());
+            movie.setGenre(genreService.getGenre(movieObject.getGenre().getGenreName()));
+            movie.setDirector(directorService.createDirector(movieObject.getDirector()));
+            return movieRepository.save(movie);
+        }
+    }
 }

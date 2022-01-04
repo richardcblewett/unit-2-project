@@ -35,8 +35,15 @@ public class MovieController {
         return movieService.getMovie(movieId);
     }
 
+    // http://localhost:9092/api/movies/
     @PostMapping("/movies")
     public Movie createMovie(@RequestBody Movie movie){
         return movieService.createMovie(movie);
+    }
+
+    // http://localhost:9092/api/movies/{movie-id}
+    @PutMapping("/movies/{movieId}")
+    public Movie updateMovie(@PathVariable Long movieId, @RequestBody Movie movieObject){
+        return movieService.updateMovie(movieId, movieObject);
     }
 }
