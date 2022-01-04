@@ -96,6 +96,7 @@ public class Movie {
         this.director = director;
     }
 
+
     //TODO later with API
     //@Column
     //private List<Actor> castList;
