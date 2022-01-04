@@ -5,6 +5,7 @@ import com.topmoviesapp.topmovies.model.User;
 import com.topmoviesapp.topmovies.model.request.LoginRequest;
 import com.topmoviesapp.topmovies.model.response.LoginResponse;
 import com.topmoviesapp.topmovies.repository.UserRepository;
+import com.topmoviesapp.topmovies.security.JWTUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

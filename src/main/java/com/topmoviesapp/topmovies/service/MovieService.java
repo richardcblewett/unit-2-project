@@ -2,6 +2,7 @@ package com.topmoviesapp.topmovies.service;
 
 import com.topmoviesapp.topmovies.model.Movie;
 import com.topmoviesapp.topmovies.repository.MovieRepository;
+import com.topmoviesapp.topmovies.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
