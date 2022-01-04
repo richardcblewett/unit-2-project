@@ -1,6 +1,10 @@
 package com.topmoviesapp.topmovies.model;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "directors")
@@ -12,6 +16,10 @@ public class Director {
 
     @Column
     private String directorName;
+
+    @OneToMany(mappedBy = "director", orphanRemoval = true)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<Movie> movieList;
 
     public Director() {
     }
