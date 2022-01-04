@@ -53,7 +53,7 @@ public class Movie {
     }
 
     public void setMovieID(Long movieID) {
-        this.id = id;
+        this.id = movieID;
     }
 
     public String getTitle() {

@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface MovieRepository extends JpaRepository<Movie, Long> {
-    Movie findByUserIdAndName(Long userID, String name);
-    Movie findByUserIdAndId(Long userID, Long movieID);
-    List<Movie> findByUserId(Long userID);
-    List<Movie> findByUserIdAndGenreId(Long userID, Long genreID);
+    Movie findByUserProfileIdAndTitle(Long userProfileID, String name);
+    Movie findByUserProfileIdAndId(Long userProfileID, Long movieID);
+    List<Movie> findByUserProfileId(Long userProfileID);
+    List<Movie> findByUserProfileIdAndGenreId(Long userProfileID, Long genreID);
 }
