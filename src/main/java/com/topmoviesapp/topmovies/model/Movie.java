@@ -11,7 +11,7 @@ public class Movie {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long movieID;
+    private Long id;
 
     @Column
     private String title;
@@ -36,8 +36,8 @@ public class Movie {
     @JsonIgnore
     private UserProfile userProfile;
 
-    public Movie(Long movieID, String title, Long rank, Long releaseYear, Genre genre, Director director) {
-        this.movieID = movieID;
+    public Movie(Long id, String title, Long rank, Long releaseYear, Genre genre, Director director) {
+        this.id = id;
         this.title = title;
         this.rank = rank;
         this.releaseYear = releaseYear;
@@ -49,11 +49,11 @@ public class Movie {
     }
 
     public Long getMovieID() {
-        return movieID;
+        return id;
     }
 
     public void setMovieID(Long movieID) {
-        this.movieID = movieID;
+        this.id = id;
     }
 
     public String getTitle() {
