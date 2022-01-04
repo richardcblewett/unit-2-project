@@ -1,5 +1,6 @@
 package com.topmoviesapp.topmovies.service;
 
+import com.topmoviesapp.topmovies.model.Genre;
 import com.topmoviesapp.topmovies.model.Director;
 import com.topmoviesapp.topmovies.model.Movie;
 import com.topmoviesapp.topmovies.repository.DirectorRepository;
@@ -17,6 +18,7 @@ import java.util.logging.Logger;
 public class MovieService {
     private MovieRepository movieRepository;
     private GenreRepository genreRepository;
+    private GenreService genreService;
     private DirectorRepository directorRepository;
     private DirectorService directorService;
     private static final Logger LOGGER = Logger.getLogger(MovieService.class.getName());
@@ -27,9 +29,13 @@ public class MovieService {
     }
 
     @Autowired
+    public void setGenreService(GenreService genreService) {this.genreService = genreService;}
+    
+    @Autowired
     public void setDirectorService(DirectorService directorService) {
         this.directorService = directorService;
     }
+
     //get all movies
     public List<Movie> getMovies() {
         LOGGER.info("calling getMovies method from service");
@@ -62,8 +68,8 @@ public class MovieService {
             throw new RuntimeException();
         } else {
             movieObject.setUserProfile(userDetails.getUser().getUserProfile());
-            Director director = directorService.createDirector(movieObject.getDirector());
-            movieObject.setDirector(director);
+            movieObject.setGenre(genreService.getGenre(movieObject.getGenre().getGenreName()));
+            movieObject.setDirector(directorService.createDirector(movieObject.getDirector()));
             return movieRepository.save(movieObject);
         }
     }
