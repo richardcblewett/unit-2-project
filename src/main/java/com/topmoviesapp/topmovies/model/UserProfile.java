@@ -25,7 +25,11 @@ public class UserProfile {
     private List<Movie> movieList;
 
     public UserProfile(){
+    }
 
+    public UserProfile(Long id, User user) {
+        this.id = id;
+        this.user = user;
     }
 
     public Long getId() {

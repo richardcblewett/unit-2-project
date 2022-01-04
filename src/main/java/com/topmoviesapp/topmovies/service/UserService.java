@@ -2,8 +2,10 @@ package com.topmoviesapp.topmovies.service;
 
 
 import com.topmoviesapp.topmovies.model.User;
+import com.topmoviesapp.topmovies.model.UserProfile;
 import com.topmoviesapp.topmovies.model.request.LoginRequest;
 import com.topmoviesapp.topmovies.model.response.LoginResponse;
+import com.topmoviesapp.topmovies.repository.UserProfileRepository;
 import com.topmoviesapp.topmovies.repository.UserRepository;
 import com.topmoviesapp.topmovies.security.JWTUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
     private UserRepository userRepository;
+    private UserProfileRepository userProfileRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -37,11 +40,17 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    @Autowired
+    public void setUserProfileRepository(UserProfileRepository userProfileRepository) {this.userProfileRepository = userProfileRepository;}
     
     public User createUser(User userObject){
         if(!userRepository.existsByEmailAddress(userObject.getEmailAddress())){
             userObject.setPassword(passwordEncoder.encode(userObject.getPassword()));
-            return userRepository.save(userObject);
+            UserProfile userProfile = new UserProfile(userObject.getId(),userObject);
+            userObject.setUserProfile(userProfile);
+            userRepository.save(userObject);
+            userProfileRepository.save(userProfile);
+            return userObject;
         } else {
             // Throw error here
             // Change error below

@@ -45,13 +45,13 @@ public class MovieService {
             return movie;
         } else {
             throw new RuntimeException();//InformationMissingException("movie with id " + movieId + " does not exist");
-          }
+        }
     }
-    
-  public Movie createMovie(Movie movieObject) {
+
+    public Movie createMovie(Movie movieObject) {
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Movie movie = movieRepository.findByUserProfileIdAndTitle(userDetails.getUser().getUserProfile().getId(), movieObject.getTitle());
-        if(movie != null){
+        if (movie != null) {
             // Include a throw error here
             throw new RuntimeException();
         } else {
