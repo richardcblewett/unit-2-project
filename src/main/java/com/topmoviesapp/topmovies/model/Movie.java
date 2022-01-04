@@ -17,7 +17,7 @@ public class Movie {
     @Column
     private String title;
 
-    @Column
+    @Column(unique = true)
     private Long rank;
 
     @Column
