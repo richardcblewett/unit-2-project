@@ -29,8 +29,10 @@ public class MovieService {
     }
 
     @Autowired
-    public void setGenreService(GenreService genreService) {this.genreService = genreService;}
-    
+    public void setGenreService(GenreService genreService) {
+        this.genreService = genreService;
+    }
+
     @Autowired
     public void setDirectorService(DirectorService directorService) {
         this.directorService = directorService;
@@ -78,7 +80,7 @@ public class MovieService {
     public Movie updateMovie(Long movieId, Movie movieObject) {
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Movie movie = movieRepository.findByUserProfileIdAndId(userDetails.getUser().getUserProfile().getId(), movieId);
-        if(movie == null){
+        if (movie == null) {
             // Include a throw error here
             throw new RuntimeException();
         } else {
@@ -89,6 +91,7 @@ public class MovieService {
             movie.setDirector(directorService.createDirector(movieObject.getDirector()));
             return movieRepository.save(movie);
         }
+    }
 
     public Movie deleteMovie(Long movieId) {
         LOGGER.info("calling deleteMovie method from service");
