@@ -1,5 +1,7 @@
 package com.topmoviesapp.topmovies.model;
 
+import org.hibernate.mapping.ToOne;
+
 import javax.persistence.*;
 
 @Entity
@@ -15,6 +17,30 @@ public class Movie {
 
     @Column
     private Long rank;
+
+    @Column
+    private Long releaseYear;
+
+    //LINKS TO OTHER TABLES
+    @ManyToOne
+    @JoinColumn(name = "genre_id")
+    private Genre genre;
+
+    @ManyToOne
+    @JoinColumn(name = "director_id")
+    private Director director;
+
+    public Movie(Long movieID, String title, Long rank, Long releaseYear, Genre genre, Director director) {
+        this.movieID = movieID;
+        this.title = title;
+        this.rank = rank;
+        this.releaseYear = releaseYear;
+        this.genre = genre;
+        this.director = director;
+    }
+
+    public Movie() {
+    }
 
     public Long getMovieID() {
         return movieID;
@@ -62,33 +88,6 @@ public class Movie {
 
     public void setDirector(Director director) {
         this.director = director;
-    }
-
-    @Column
-    private Long releaseYear;
-
-    //LINKS TO OTHER TABLES
-    @ManyToOne
-    @JoinColumn(name = "genre_id")
-    @Column
-    private Genre genre;
-
-    @ManyToOne
-    @JoinColumn(name = "director_id")
-    @Column
-    //when a user requests a movie, we want to return the director. so no jsonignore
-    private Director director;
-
-    public Movie(Long movieID, String title, Long rank, Long releaseYear, Genre genre, Director director) {
-        this.movieID = movieID;
-        this.title = title;
-        this.rank = rank;
-        this.releaseYear = releaseYear;
-        this.genre = genre;
-        this.director = director;
-    }
-
-    public Movie() {
     }
 
     //TODO later with API
