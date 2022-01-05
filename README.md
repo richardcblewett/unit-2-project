@@ -9,19 +9,19 @@ The movies will include the title, the director, the release date, and the genre
 
 ## Endpoints:  
 
-| Request Type | URL| Request Body                                              | Request Header              | Action                                 | Access  |   
-|---|---|-----------------------------------------------------------|------------------------------|----------------------------------------|---------|    
-| POST | /auth/users/register | emailAddress <br> password                                | Authorization: none | registers a user                       | PUBLIC  |
-| POST | /auth/users/login | email <br> password                                       | Authorization: none | allows a user to login                 | PUBLIC  |
-| GET | /api/movies |                                                           | Authorization: Bearer token  | returns a list of all movies           | PRIVATE |
-| POST | /api/movies | title <br> rank <br> releaseYear <br> genre <br> director | Authorization: Bearer token  | adds a movie to the database           | PRIVATE |
-| GET | /api/movies/{movie-id} | | Authorization: Bearer token  | returns a single movie                 | PRIVATE |
-| PUT | /api/movies/{movie-id} | | Authorization: Bearer token  | updates an existing movie              | PRIVATE |
-| DELETE | /api/movies/{movie-id} | | Authorization: Bearer token  | removes a movie from the database      | PRIVATE |
-| GET | /api/movies/{movie-id}/director | | Authorization: Bearer token  | returns the specified movie's director | PRIVATE |
-| GET | /api/movies/{movie-id}/genres | | Authorization: Bearer token  | returns the specified movie's genre    | PRIVATE |
-
-
+| Request Type | URL                            | Request Body                                              | Request Header              | Action                                               | Access   |   
+|---|--------------------------------|-----------------------------------------------------------|------------------------------|------------------------------------------------------|----------|    
+| POST | /auth/users/register           | emailAddress <br> password                                | Authorization: none | registers a user                                     | PUBLIC   |
+| POST | /auth/users/login              | email <br> password                                       | Authorization: none | allows a user to login                               | PUBLIC   |
+| GET | /api/movies                    |                                                           | Authorization: Bearer token  | returns a list of all movies                         | PRIVATE  |
+| POST | /api/movies                    | title <br> rank <br> releaseYear <br> genre <br> director | Authorization: Bearer token  | adds a movie to the database                         | PRIVATE  |
+| GET | /api/movies/{movie-id}         | | Authorization: Bearer token  | returns a single movie                               | PRIVATE  |
+| PUT | /api/movies/{movie-id}         | | Authorization: Bearer token  | updates an existing movie                            | PRIVATE  |
+| DELETE | /api/movies/{movie-id}         | | Authorization: Bearer token  | removes a movie from the database                    | PRIVATE  |
+| GET | /api/movies/{movie-id}/director | | Authorization: Bearer token  | returns the specified movie's director               | PRIVATE  |
+| GET | /api/movies/{movie-id}/genres  | | Authorization: Bearer token  | returns the specified movie's genre                  | PRIVATE  |
+| GET | /api/search/director           | name | Authorization: Bearer token | returns a list of movies from the specified director | PRIVATE  | 
+| GET | /api/search/genre | name | Authorization: Bearer token | returns a list of movies in the specified genre      | PRIVATE  | 
 
 
 ## User Stories:
