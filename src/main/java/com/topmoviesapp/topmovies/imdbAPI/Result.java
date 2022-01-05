@@ -1,4 +1,4 @@
-package com.topmoviesapp.topmovies.model;
+package com.topmoviesapp.topmovies.imdbAPI;
 
 public class Result {
     public String id;

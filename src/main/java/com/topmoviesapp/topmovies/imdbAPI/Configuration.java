@@ -1,4 +1,4 @@
-package com.topmoviesapp.topmovies;
+package com.topmoviesapp.topmovies.imdbAPI;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
