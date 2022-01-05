@@ -2,7 +2,6 @@ package com.topmoviesapp.topmovies.service;
 
 
 import com.topmoviesapp.topmovies.exception.InformationExistsException;
-import com.topmoviesapp.topmovies.exception.InformationMissingException;
 import com.topmoviesapp.topmovies.model.User;
 import com.topmoviesapp.topmovies.model.UserProfile;
 import com.topmoviesapp.topmovies.model.request.LoginRequest;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -47,8 +45,9 @@ public class UserService {
     
     public User createUser(User userObject){
         if(!userRepository.existsByEmailAddress(userObject.getEmailAddress())){
+            //if the user does not exist, we have to create the user and user profile
             userObject.setPassword(passwordEncoder.encode(userObject.getPassword()));
-            UserProfile userProfile = new UserProfile(userObject.getId(),userObject);
+            UserProfile userProfile = new UserProfile(userObject);
             userObject.setUserProfile(userProfile);
             userRepository.save(userObject);
             userProfileRepository.save(userProfile);

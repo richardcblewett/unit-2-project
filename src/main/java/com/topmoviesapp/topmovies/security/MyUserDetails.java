@@ -2,7 +2,6 @@ package com.topmoviesapp.topmovies.security;
 
 import com.topmoviesapp.topmovies.controller.MovieController;
 import com.topmoviesapp.topmovies.model.User;
-import com.topmoviesapp.topmovies.model.UserProfile;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -34,7 +33,6 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        //LOGGER.info("userName is " + user.getUserName());
         return user.getEmailAddress();
     }
 
