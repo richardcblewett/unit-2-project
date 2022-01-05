@@ -1,5 +1,7 @@
 package com.topmoviesapp.topmovies.service;
 
+import com.topmoviesapp.topmovies.exception.InformationExistsException;
+import com.topmoviesapp.topmovies.exception.InformationMissingException;
 import com.topmoviesapp.topmovies.model.Genre;
 import com.topmoviesapp.topmovies.model.Director;
 import com.topmoviesapp.topmovies.model.Movie;
@@ -44,7 +46,7 @@ public class MovieService {
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<Movie> movies = movieRepository.findByUserProfileId(userDetails.getUser().getUserProfile().getId());
         if (movies.isEmpty()) {
-            throw new RuntimeException();//InformationMissingException("movies missing for user with id: " + userDetails.getUser().getUserProfile().getId());
+            throw new InformationMissingException("there are no movies associated with the " + userDetails.getUser().getEmailAddress() + " user account");
         } else {
             return movies;
         }
@@ -58,16 +60,16 @@ public class MovieService {
         if (movie != null) {
             return movie;
         } else {
-            throw new RuntimeException();//InformationMissingException("movie with id " + movieId + " does not exist");
+            throw new InformationMissingException("there is no movie with an id of " + movieId + " associated with the " + userDetails.getUser().getEmailAddress() + " user account");
         }
     }
 
     public Movie createMovie(Movie movieObject) {
+        LOGGER.info("calling createMovie method from service");
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Movie movie = movieRepository.findByUserProfileIdAndTitle(userDetails.getUser().getUserProfile().getId(), movieObject.getTitle());
         if (movie != null) {
-            // Include a throw error here
-            throw new RuntimeException();
+            throw new InformationExistsException("this movie is already associated with the " + userDetails.getUser().getEmailAddress() + " user account");
         } else {
             movieObject.setUserProfile(userDetails.getUser().getUserProfile());
             movieObject.setGenre(genreService.getGenre(movieObject.getGenre().getGenreName()));
@@ -78,11 +80,11 @@ public class MovieService {
 
 
     public Movie updateMovie(Long movieId, Movie movieObject) {
+        LOGGER.info("calling updateMovie method from service");
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Movie movie = movieRepository.findByUserProfileIdAndId(userDetails.getUser().getUserProfile().getId(), movieId);
         if (movie == null) {
-            // Include a throw error here
-            throw new RuntimeException();
+            throw new InformationMissingException("there is no movie with an id of " + movieId + " associated with the " + userDetails.getUser().getEmailAddress() + " user account");
         } else {
             movie.setTitle(movieObject.getTitle());
             movie.setRank(movieObject.getRank());
@@ -94,10 +96,11 @@ public class MovieService {
     }
 
     public Director getDirector(Long movieId) {
+        LOGGER.info("calling getDirector method from service");
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Movie movie = movieRepository.findByUserProfileIdAndId(userDetails.getUser().getUserProfile().getId(), movieId);
         if (movie == null) {
-            throw new RuntimeException();//InformationMissingException("movies missing for user with id: " + userDetails.getUser().getUserProfile().getId());
+            throw new InformationMissingException("there is no movie with an id of " + movieId + " associated with the " + userDetails.getUser().getEmailAddress() + " user account");
         } else {
             return movie.getDirector();
         }
@@ -108,7 +111,7 @@ public class MovieService {
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Movie movie = movieRepository.findByUserProfileIdAndId(userDetails.getUser().getUserProfile().getId(), movieId);
         if (movie == null) {
-            throw new RuntimeException();//InformationMissingException("category with id " + categoryId + " does not exist");
+            throw new InformationMissingException("there is no movie with an id of " + movieId + " associated with the " + userDetails.getUser().getEmailAddress() + " user account");
         } else {
             movieRepository.deleteById(movieId);
             return movie;
@@ -116,10 +119,11 @@ public class MovieService {
     }
 
     public Genre getGenre(Long movieId) {
+        LOGGER.info("calling getGenre method from service");
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Movie movie = movieRepository.findByUserProfileIdAndId(userDetails.getUser().getUserProfile().getId(), movieId);
         if (movie == null) {
-            throw new RuntimeException();//InformationMissingException("movies missing for user with id: " + userDetails.getUser().getUserProfile().getId());
+            throw new InformationMissingException("there is no movie with an id of " + movieId + " associated with the " + userDetails.getUser().getEmailAddress() + " user account");
         } else {
             return movie.getGenre();
         }
