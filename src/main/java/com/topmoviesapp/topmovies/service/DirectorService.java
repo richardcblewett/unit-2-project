@@ -13,6 +13,8 @@ public class DirectorService {
     public void setDirectorRepository(DirectorRepository directorRepository){
         this.directorRepository = directorRepository;
     }
+
+    // This method checks if a director already exists. If it doesn't, create one.
     public Director createDirector(Director directorObject){
         Director director = directorRepository.findDirectorByDirectorName(directorObject.getDirectorName());
         if(director != null) {
