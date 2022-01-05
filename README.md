@@ -34,7 +34,6 @@ As a user, I want to be able to find out what genre my movie is in.
 ### SILVER
 As a user, I want to be able to list my movies by genre.
 As a user, I want to be able to list my movies by director.
-As a user, I want to be able to list what years my movies were released.
 As a user, I want to be able to find out which movie is my nth rank movie.
 
 
