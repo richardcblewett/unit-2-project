@@ -41,10 +41,13 @@ public class MovieService {
     }
 
 
-
-
     @Autowired
     public void setGenreRepository(GenreRepository genreRepository){this.genreRepository = genreRepository;}
+
+    @Autowired
+    public void setDirectorRepository(DirectorRepository directorRepository){
+        this.directorRepository = directorRepository;
+    }
 
     //get all movies
     public List<Movie> getMovies() {
@@ -135,28 +138,6 @@ public class MovieService {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public List<Movie> getMovieListByGenre(Genre genreObject) {
         LOGGER.info("calling MovieListByGenre method from service");
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -168,4 +149,14 @@ public class MovieService {
         }
     }
 
+    public List<Movie> getMovieListByDirector(Director directorObject) {
+        LOGGER.info("calling createMovie method from service");
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Director director = directorRepository.findDirectorByDirectorName(directorObject.getDirectorName());
+        if(director == null){
+            throw new InformationMissingException("director with name " + directorObject.getDirectorName() + " does not exist.");
+        } else {
+            return movieRepository.findByUserProfileIdAndDirector(userDetails.getUser().getUserProfile().getId(), director);
+        }
+    }
 }

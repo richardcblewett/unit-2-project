@@ -2,10 +2,14 @@ package com.topmoviesapp.topmovies.controller;
 
 
 import com.topmoviesapp.topmovies.model.Genre;
+import com.topmoviesapp.topmovies.model.Director;
 import com.topmoviesapp.topmovies.model.Movie;
 import com.topmoviesapp.topmovies.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -23,11 +27,6 @@ public class SearchController {
     }
 
 
-
-
-
-
-
     // http://localhost:9092/api/search/genre
     @GetMapping("/genre")
     public List<Movie> getMovieListByGenre(@RequestBody Genre genre) {
@@ -35,6 +34,8 @@ public class SearchController {
         return movieService.getMovieListByGenre(genre);
     }
 
-
-
+  @GetMapping(path = "/director")
+    public List<Movie> getMovieListByDirector(@RequestBody Director directorObject){
+        return movieService.getMovieListByDirector(directorObject);
+    }
 }
