@@ -1,10 +1,31 @@
-# Top Movies Application
+# Top Movies App
 
 ### Project Description:
-This is an application where users can record and rank their favorite movies.
-The movies will include the title, the director, the release date, and the genre.
+This is an application where users can record and rank their favorite movies.   
+The movies will include the title, the director, the release date, and the genre.   
 
-## ERD 
+## Machineries Used
+- LucidChart (creating ERD)
+- GoogleDocs (initial design collaboration)
+- IntelliJ IDEA (IDE)
+- SpringBoot (framework)
+- Maven (dependency management)
+- postgresql (database)
+- pgAdmin (managing the database)
+- Postman (endpoint testing)
+
+## Design Approach
+
+## Unsolved Problems
+
+## Hurdles Overcome
+Autowire is necessary, or else objects return null point exception. (Discovered when debugging code.)
+
+## Planning Documentation
+
+### GoogleDoc(?)
+
+### ERD 
 {inset photo}
 
 ## Endpoints:  
@@ -44,3 +65,7 @@ The movies will include the title, the director, the release date, and the genre
 
 ### PLATINUM
 - Based on the user’s input of a movie name, we should be able to pull details from an API so the user does not have to fill out the movie details.
+
+
+
+## Installation Instructions
