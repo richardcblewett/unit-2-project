@@ -40,6 +40,12 @@ public class MovieService {
         this.directorService = directorService;
     }
 
+
+
+
+    @Autowired
+    public void setGenreRepository(GenreRepository genreRepository){this.genreRepository = genreRepository;}
+
     //get all movies
     public List<Movie> getMovies() {
         LOGGER.info("calling getMovies method from service");
@@ -104,9 +110,9 @@ public class MovieService {
         } else {
             return movie.getDirector();
         }
-  }
+    }
 
-  public Movie deleteMovie(Long movieId) {
+    public Movie deleteMovie(Long movieId) {
         LOGGER.info("calling deleteMovie method from service");
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Movie movie = movieRepository.findByUserProfileIdAndId(userDetails.getUser().getUserProfile().getId(), movieId);
@@ -128,4 +134,38 @@ public class MovieService {
             return movie.getGenre();
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public List<Movie> getMovieListByGenre(Genre genreObject) {
+        LOGGER.info("calling MovieListByGenre method from service");
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Genre genre = genreRepository.findGenreByGenreName(genreObject.getGenreName());
+        if (genre == null) {
+            throw new InformationMissingException("there are no movies associated with the " + genreObject.getGenreName() + " genre and " + userDetails.getUser().getEmailAddress() + " user account");
+        } else {
+            return movieRepository.findByGenreAndUserProfileId(genre, userDetails.getUser().getUserProfile().getId());
+        }
+    }
+
 }
