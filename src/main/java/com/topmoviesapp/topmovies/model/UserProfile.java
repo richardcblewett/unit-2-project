@@ -27,6 +27,10 @@ public class UserProfile {
     public UserProfile(){
     }
 
+    public UserProfile(User user) {
+        this.user = user;
+    }
+
     public UserProfile(Long id, User user) {
         this.id = id;
         this.user = user;

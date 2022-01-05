@@ -34,7 +34,6 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        //LOGGER.info("userName is " + user.getUserName());
         return user.getEmailAddress();
     }
 

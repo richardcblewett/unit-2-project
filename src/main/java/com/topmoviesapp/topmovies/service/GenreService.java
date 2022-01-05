@@ -15,6 +15,7 @@ public class GenreService {
     @Autowired
     public void setGenreRepository(GenreRepository genreRepository){this.genreRepository = genreRepository;}
 
+    //checks if a specific genre exists. if one does not, one is created.
     public Genre getGenre(String name){
         LOGGER.info("calling getGenre method from service");
         if (!genreRepository.existsByGenreName(name)) {

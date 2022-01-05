@@ -97,7 +97,6 @@ public class Movie {
         this.director = director;
     }
 
-
     public UserProfile getUserProfile() {
         return userProfile;
     }
@@ -105,13 +104,5 @@ public class Movie {
     public void setUserProfile(UserProfile userProfile) {
         this.userProfile = userProfile;
     }
-
-    //TODO later with API
-    //@Column
-    //private List<Actor> castList;
-
-    //TODO later with API
-    //@Column
-    //private Long duration;
 
 }

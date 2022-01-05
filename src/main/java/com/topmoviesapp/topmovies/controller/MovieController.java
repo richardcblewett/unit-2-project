@@ -39,15 +39,14 @@ public class MovieController {
 
     // http://localhost:9092/api/movies/
     @PostMapping("/movies")
-    public Movie createMovie(@RequestBody Movie movie){
+    public Movie createMovie(@RequestBody Movie movie) {
         LOGGER.info("calling createMovie method from controller");
         return movieService.createMovie(movie);
     }
 
-
     // http://localhost:9092/api/movies/{movie-id}
     @PutMapping("/movies/{movieId}")
-    public Movie updateMovie(@PathVariable Long movieId, @RequestBody Movie movieObject){
+    public Movie updateMovie(@PathVariable Long movieId, @RequestBody Movie movieObject) {
         LOGGER.info("calling updateMovie method from controller");
         return movieService.updateMovie(movieId, movieObject);
     }
@@ -59,7 +58,6 @@ public class MovieController {
         return movieService.getDirector(movieId);
     }
 
-
     // http://localhost:9092/api/movies/{movie-id}/genre
     @GetMapping("/movies/{movieId}/genre")
     public Genre getGenre(@PathVariable Long movieId) {
@@ -67,7 +65,7 @@ public class MovieController {
         return movieService.getGenre(movieId);
     }
 
-  // http://localhost:9092/api/movies/"{movieId}"
+    // http://localhost:9092/api/movies/"{movieId}"
     @DeleteMapping(path = "/movies/{movieId}")
     public Movie deleteMovie(@PathVariable(value = "movieId") Long movieId) {
         LOGGER.info("calling deleteMovie method from controller");
