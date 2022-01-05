@@ -47,8 +47,9 @@ public class UserService {
     
     public User createUser(User userObject){
         if(!userRepository.existsByEmailAddress(userObject.getEmailAddress())){
+            //if the user does not exist, we have to create the user and user profile
             userObject.setPassword(passwordEncoder.encode(userObject.getPassword()));
-            UserProfile userProfile = new UserProfile(userObject.getId(),userObject);
+            UserProfile userProfile = new UserProfile(userObject);
             userObject.setUserProfile(userProfile);
             userRepository.save(userObject);
             userProfileRepository.save(userProfile);
