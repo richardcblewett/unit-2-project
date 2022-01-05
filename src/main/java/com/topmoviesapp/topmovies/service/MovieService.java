@@ -73,6 +73,10 @@ public class MovieService {
         }
     }
 
+    // This method accepts a movieObject
+    // It searches if that movie is already in the database
+    // If not, then add that movie into the database
+    // If already exists in the database, then return Information already exists error
     public Movie createMovie(Movie movieObject) {
         LOGGER.info("calling createMovie method from service");
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -87,7 +91,10 @@ public class MovieService {
         }
     }
 
-
+    // This method accepts a movieId and a movie object.
+    // It searches for a movie based on the movie ID
+    // IF found, update that movie to match with the movieObject that was passed in
+    // If not found, return a not found error
     public Movie updateMovie(Long movieId, Movie movieObject) {
         LOGGER.info("calling updateMovie method from service");
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -104,6 +111,7 @@ public class MovieService {
         }
     }
 
+    // This method searches for a movie given a director ID and returns that movie
     public Director getDirector(Long movieId) {
         LOGGER.info("calling getDirector method from service");
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -127,6 +135,7 @@ public class MovieService {
         }
     }
 
+    // This method searches for a movie given a genre ID and returns that movie
     public Genre getGenre(Long movieId) {
         LOGGER.info("calling getGenre method from service");
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -149,6 +158,7 @@ public class MovieService {
         }
     }
 
+    // This method searches for movie/movies given a director's name and return a List of movies
     public List<Movie> getMovieListByDirector(Director directorObject) {
         LOGGER.info("calling createMovie method from service");
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
