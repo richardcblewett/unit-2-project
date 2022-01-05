@@ -40,6 +40,10 @@ public class MovieService {
         this.directorService = directorService;
     }
 
+    @Autowired
+    public void setDirectorRepository(DirectorRepository directorRepository){
+        this.directorRepository = directorRepository;
+    }
     //get all movies
     public List<Movie> getMovies() {
         LOGGER.info("calling getMovies method from service");
@@ -126,6 +130,39 @@ public class MovieService {
             throw new InformationMissingException("there is no movie with an id of " + movieId + " associated with the " + userDetails.getUser().getEmailAddress() + " user account");
         } else {
             return movie.getGenre();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public List<Movie> getMovieListByDirector(Director directorObject) {
+        LOGGER.info("calling createMovie method from service");
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Director director = directorRepository.findDirectorByDirectorName(directorObject.getDirectorName());
+        if(director == null){
+            throw new InformationMissingException("director with name " + directorObject.getDirectorName() + " does not exist.");
+        } else {
+            return movieRepository.findByUserProfileIdAndDirector(userDetails.getUser().getUserProfile().getId(), director);
         }
     }
 }
