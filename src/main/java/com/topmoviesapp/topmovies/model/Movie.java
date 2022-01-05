@@ -1,8 +1,6 @@
 package com.topmoviesapp.topmovies.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.topmoviesapp.topmovies.service.DirectorService;
-import org.hibernate.mapping.ToOne;
 
 import javax.persistence.*;
 
