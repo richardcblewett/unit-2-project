@@ -5,9 +5,12 @@ import com.topmoviesapp.topmovies.repository.ActorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.logging.Logger;
+
 @Service
 public class ActorService {
     private ActorRepository actorRepository;
+    private static final Logger LOGGER = Logger.getLogger(MovieService.class.getName());
 
 
     @Autowired

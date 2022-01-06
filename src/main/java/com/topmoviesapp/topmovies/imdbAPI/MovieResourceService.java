@@ -27,7 +27,6 @@ public class MovieResourceService {
         ImdbMovie imdbMovie = restTemplate.getForObject(url2 + apiKey + "/" + id, ImdbMovie.class);
         if (imdbMovie != null) {
             imdbMovie.setDirectors(imdbMovie.getDirectors().split(",")[0]);
-            imdbMovie.setGenres(imdbMovie.getGenres().split(",")[0]);
             return imdbMovie;
         } else {
             throw new InformationMissingException("movie " + title + " was not found in the database");

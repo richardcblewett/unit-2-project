@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -103,13 +104,15 @@ public class MovieService {
             }
             ImdbMovie imdbMovie = movieResourceService.getMovies(movieObject.getTitle());
             Set<Actor> actorSet = new HashSet<>();
+            Set<Genre> genreSet = new HashSet<>();
             Movie newMovie = new Movie(imdbMovie);
             newMovie.setUserProfile(userDetails.getUser().getUserProfile());
-            newMovie.setGenre(genreService.getGenre(imdbMovie.getGenres()));
             newMovie.setDirector(directorService.createDirector(imdbMovie.getDirectors()));
             newMovie.setRank(movieObject.getRank());
             imdbMovie.getActorList().forEach(actor -> actorSet.add(actorService.createActor(actor.getName())));
             newMovie.setActors(actorSet);
+            imdbMovie.getGenreList().forEach(item -> genreSet.add(genreService.getGenre(item.getValue())));
+            newMovie.setGenre(genreSet);
             return movieRepository.save(newMovie);
         }
     }
@@ -158,7 +161,7 @@ public class MovieService {
     }
 
     // This method searches for a movie given a genre ID and returns that movie
-    public Genre getGenre(Long movieId) {
+    public Set<Genre> getGenre(Long movieId) {
         LOGGER.info("calling getGenre method from service");
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Movie movie = movieRepository.findByUserProfileIdAndId(userDetails.getUser().getUserProfile().getId(), movieId);
@@ -169,16 +172,16 @@ public class MovieService {
         }
     }
 
-    public List<Movie> getMovieListByGenre(Genre genreObject) {
-        LOGGER.info("calling MovieListByGenre method from service");
-        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Genre genre = genreRepository.findGenreByGenreName(genreObject.getGenreName());
-        if (genre == null) {
-            throw new InformationMissingException("there are no movies associated with the " + genreObject.getGenreName() + " genre and " + userDetails.getUser().getEmailAddress() + " user account");
-        } else {
-            return movieRepository.findByGenreAndUserProfileId(genre, userDetails.getUser().getUserProfile().getId());
-        }
-    }
+//    public List<Movie> getMovieListByGenre(Genre genreObject) {
+//        LOGGER.info("calling MovieListByGenre method from service");
+//        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        Genre genre = genreRepository.findGenreByName(genreObject.getName());
+//        if (genre == null) {
+//            throw new InformationMissingException("there are no movies associated with the " + genreObject.getName() + " genre and " + userDetails.getUser().getEmailAddress() + " user account");
+//        } else {
+//            return movieRepository.findByGenreAndUserProfileId(genre, userDetails.getUser().getUserProfile().getId());
+//        }
+//    }
 
     // This method searches for movie/movies given a director's name and return a List of movies
     public List<Movie> getMovieListByDirector(Director directorObject) {

@@ -28,11 +28,11 @@ public class SearchController {
 
 
     // http://localhost:9092/api/search/genre
-    @GetMapping("/genre")
-    public List<Movie> getMovieListByGenre(@RequestBody Genre genre) {
-        LOGGER.info("calling getMovieListByGenre method from controller");
-        return movieService.getMovieListByGenre(genre);
-    }
+//    @GetMapping("/genre")
+//    public List<Movie> getMovieListByGenre(@RequestBody Genre genre) {
+//        LOGGER.info("calling getMovieListByGenre method from controller");
+//        return movieService.getMovieListByGenre(genre);
+//    }
 
   @GetMapping(path = "/director")
     public List<Movie> getMovieListByDirector(@RequestBody Director directorObject){

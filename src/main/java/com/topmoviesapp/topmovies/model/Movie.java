@@ -37,26 +37,26 @@ public class Movie {
 
     //LINKS TO OTHER TABLES
     @ManyToOne
-    @JoinColumn(name = "genre_id")
-    private Genre genre;
-
-    @ManyToOne
     @JoinColumn(name = "director_id")
     private Director director;
 
     @ManyToOne
-    @JoinColumn(name="userprofile_id")
+    @JoinColumn(name = "userprofile_id")
     @JsonIgnore
     private UserProfile userProfile;
-
 
     //https://stackoverflow.com/questions/42394095/many-to-many-relationship-between-two-entities-in-spring-boot/42396995
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable
     private Set<Actor> actors;
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable
+    private Set<Genre> genres;
+
+
     public Movie(Long id, String title, Long rank, Long releaseYear, String description, Integer length,
-                 Double imdbRating, String contentRating, Genre genre, Director director, UserProfile userProfile) {
+                 Double imdbRating, String contentRating, Director director, UserProfile userProfile) {
         this.id = id;
         this.title = title;
         this.rank = rank;
@@ -65,12 +65,11 @@ public class Movie {
         this.length = length;
         this.imdbRating = imdbRating;
         this.contentRating = contentRating;
-        this.genre = genre;
         this.director = director;
         this.userProfile = userProfile;
     }
 
-    public Movie (ImdbMovie imdbMovie){
+    public Movie(ImdbMovie imdbMovie) {
         this.title = imdbMovie.getTitle();
         this.releaseYear = imdbMovie.getYear();
         this.description = imdbMovie.getPlot();
@@ -114,14 +113,6 @@ public class Movie {
 
     public void setReleaseYear(Long releaseYear) {
         this.releaseYear = releaseYear;
-    }
-
-    public Genre getGenre() {
-        return genre;
-    }
-
-    public void setGenre(Genre genre) {
-        this.genre = genre;
     }
 
     public Director getDirector() {
@@ -179,4 +170,13 @@ public class Movie {
     public void setActors(Set<Actor> actors) {
         this.actors = actors;
     }
+
+    public Set<Genre> getGenre() {
+        return genres;
+    }
+
+    public void setGenre(Set<Genre> genres) {
+        this.genres = genres;
+    }
+
 }

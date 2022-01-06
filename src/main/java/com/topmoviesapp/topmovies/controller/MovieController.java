@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 
@@ -60,7 +61,7 @@ public class MovieController {
 
     // http://localhost:9092/api/movies/{movie-id}/genre
     @GetMapping("/movies/{movieId}/genre")
-    public Genre getGenre(@PathVariable Long movieId) {
+    public Set<Genre> getGenre(@PathVariable Long movieId) {
         LOGGER.info("calling getGenre method from controller");
         return movieService.getGenre(movieId);
     }
