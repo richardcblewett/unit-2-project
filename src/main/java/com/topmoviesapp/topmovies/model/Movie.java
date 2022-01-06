@@ -33,9 +33,6 @@ public class Movie {
     @Column
     private String contentRating;
 
-    @OneToMany(mappedBy = "movies")
-    private Set<Cast> actors;
-
     //LINKS TO OTHER TABLES
     @ManyToOne
     @JoinColumn(name = "genre_id")
@@ -124,4 +121,35 @@ public class Movie {
         this.userProfile = userProfile;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getLength() {
+        return length;
+    }
+
+    public void setLength(Integer length) {
+        this.length = length;
+    }
+
+    public Double getImdbRating() {
+        return imdbRating;
+    }
+
+    public void setImdbRating(Double imdbRating) {
+        this.imdbRating = imdbRating;
+    }
+
+    public String getContentRating() {
+        return contentRating;
+    }
+
+    public void setContentRating(String contentRating) {
+        this.contentRating = contentRating;
+    }
 }
