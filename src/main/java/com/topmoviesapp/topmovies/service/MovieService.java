@@ -2,6 +2,8 @@ package com.topmoviesapp.topmovies.service;
 
 import com.topmoviesapp.topmovies.exception.InformationExistsException;
 import com.topmoviesapp.topmovies.exception.InformationMissingException;
+import com.topmoviesapp.topmovies.imdbAPI.ImdbMovie;
+import com.topmoviesapp.topmovies.imdbAPI.MovieResourceService;
 import com.topmoviesapp.topmovies.model.Genre;
 import com.topmoviesapp.topmovies.model.Director;
 import com.topmoviesapp.topmovies.model.Movie;
@@ -23,6 +25,7 @@ public class MovieService {
     private GenreService genreService;
     private DirectorRepository directorRepository;
     private DirectorService directorService;
+    private MovieResourceService movieResourceService;
     private static final Logger LOGGER = Logger.getLogger(MovieService.class.getName());
 
     @Autowired
@@ -40,7 +43,6 @@ public class MovieService {
         this.directorService = directorService;
     }
 
-
     @Autowired
     public void setGenreRepository(GenreRepository genreRepository){this.genreRepository = genreRepository;}
 
@@ -48,6 +50,9 @@ public class MovieService {
     public void setDirectorRepository(DirectorRepository directorRepository){
         this.directorRepository = directorRepository;
     }
+
+    @Autowired
+    public void setMovieResourceService(MovieResourceService movieResourceService){this.movieResourceService = movieResourceService;}
 
     //get all movies
     public List<Movie> getMovies() {
@@ -84,10 +89,12 @@ public class MovieService {
         if (movie != null) {
             throw new InformationExistsException("this movie is already associated with the " + userDetails.getUser().getEmailAddress() + " user account");
         } else {
-            movieObject.setUserProfile(userDetails.getUser().getUserProfile());
-            movieObject.setGenre(genreService.getGenre(movieObject.getGenre().getGenreName()));
-            movieObject.setDirector(directorService.createDirector(movieObject.getDirector()));
-            return movieRepository.save(movieObject);
+            ImdbMovie imdbMovie = movieResourceService.getMovies(movieObject.getTitle());
+            Movie newMovie = new Movie(imdbMovie);
+            newMovie.setUserProfile(userDetails.getUser().getUserProfile());
+            newMovie.setGenre(genreService.getGenre(imdbMovie.getGenres()));
+            newMovie.setDirector(directorService.createDirector(imdbMovie.getDirectors()));
+            return movieRepository.save(newMovie);
         }
     }
 
@@ -106,7 +113,7 @@ public class MovieService {
             movie.setRank(movieObject.getRank());
             movie.setReleaseYear(movieObject.getReleaseYear());
             movie.setGenre(genreService.getGenre(movieObject.getGenre().getGenreName()));
-            movie.setDirector(directorService.createDirector(movieObject.getDirector()));
+            movie.setDirector(directorService.createDirector(movieObject.getDirector().getDirectorName()));
             return movieRepository.save(movie);
         }
     }

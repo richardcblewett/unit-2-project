@@ -1,6 +1,7 @@
 package com.topmoviesapp.topmovies.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.topmoviesapp.topmovies.imdbAPI.ImdbMovie;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -22,7 +23,7 @@ public class Movie {
     @Column
     private Long releaseYear;
 
-    @Column
+    @Column(columnDefinition = "text")
     private String description;
 
     @Column
@@ -67,6 +68,18 @@ public class Movie {
         this.genre = genre;
         this.director = director;
         this.userProfile = userProfile;
+    }
+
+    public Movie (ImdbMovie imdbMovie){
+        this.title = imdbMovie.getTitle();
+        this.releaseYear = imdbMovie.getYear();
+        this.description = imdbMovie.getPlot();
+        this.length = imdbMovie.getRuntimeMins();
+        this.imdbRating = imdbMovie.getImDbRating();
+        this.contentRating = imdbMovie.getContentRating();
+        this.actors = imdbMovie.getActorList();
+        //this.genre = imdbMovie.getGenres();
+        //this.director = imdbMovie.getDirectors();
     }
 
     public Movie() {

@@ -1,8 +1,8 @@
 package com.topmoviesapp.topmovies.imdbAPI;
 
-import org.w3c.dom.Text;
 
 import java.util.List;
+import java.util.Set;
 
 public class ImdbMovie {
     private String title;
@@ -10,8 +10,8 @@ public class ImdbMovie {
     private String genres;
     private Long year;
     private String plot;
-    private Long runtimeMins;
-    private List<ImdbActor> actorList;
+    private Integer runtimeMins;
+    private Set<ImdbActor> actorList;
     private Double imDbRating;
     private String contentRating;
 
@@ -19,7 +19,7 @@ public class ImdbMovie {
     public ImdbMovie() {
     }
 
-    public ImdbMovie(String title, String directors, String genres, Long year, String plot, Long runtimeMins, List<ImdbActor> actorList, Double imDbRating, String contentRating) {
+    public ImdbMovie(String title, String directors, String genres, Long year, String plot, Integer runtimeMins, Set<ImdbActor> actorList, Double imDbRating, String contentRating) {
         this.title = title;
         this.directors = directors;
         this.genres = genres;
@@ -71,19 +71,19 @@ public class ImdbMovie {
         this.plot = plot;
     }
 
-    public Long getRuntimeMins() {
+    public Integer getRuntimeMins() {
         return runtimeMins;
     }
 
-    public void setRuntimeMins(Long runtimeMins) {
+    public void setRuntimeMins(Integer runtimeMins) {
         this.runtimeMins = runtimeMins;
     }
 
-    public List<ImdbActor> getActorList() {
+    public Set<ImdbActor> getActorList() {
         return actorList;
     }
 
-    public void setActorList(List<ImdbActor> actorList) {
+    public void setActorList(Set<ImdbActor> actorList) {
         this.actorList = actorList;
     }
 

@@ -1,6 +1,7 @@
 package com.topmoviesapp.topmovies.service;
 
 import com.topmoviesapp.topmovies.model.Director;
+import com.topmoviesapp.topmovies.model.Genre;
 import com.topmoviesapp.topmovies.repository.DirectorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,11 +16,13 @@ public class DirectorService {
     }
 
     // This method checks if a director already exists. If it doesn't, create one.
-    public Director createDirector(Director directorObject){
-        Director director = directorRepository.findDirectorByDirectorName(directorObject.getDirectorName());
-        if(director != null) {
+    public Director createDirector(String name){
+        Director director = directorRepository.findDirectorByDirectorName(name);
+        if (director != null) {
             return director;
         } else {
+            Director directorObject = new Director();
+            directorObject.setDirectorName(name);
             return directorRepository.save(directorObject);
         }
     }
