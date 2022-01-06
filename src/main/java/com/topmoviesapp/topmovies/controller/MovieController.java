@@ -52,11 +52,11 @@ public class MovieController {
     }
 
     // http://localhost:9092/api/movies/{movie-id}/director
-    @GetMapping("/movies/{movieId}/director")
-    public Director getDirector(@PathVariable Long movieId) {
-        LOGGER.info("calling getDirector method from controller");
-        return movieService.getDirector(movieId);
-    }
+//    @GetMapping("/movies/{movieId}/director")
+//    public Director getDirector(@PathVariable Long movieId) {
+//        LOGGER.info("calling getDirector method from controller");
+//        return movieService.getDirector(movieId);
+//    }
 
     // http://localhost:9092/api/movies/{movie-id}/genre
     @GetMapping("/movies/{movieId}/genre")

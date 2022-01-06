@@ -103,13 +103,15 @@ public class MovieService {
             }
             ImdbMovie imdbMovie = movieResourceService.getMovies(movieObject.getTitle());
             Set<Actor> actorSet = new HashSet<>();
+            Set<Director> directorSet = new HashSet<>();
             Movie newMovie = new Movie(imdbMovie);
             newMovie.setUserProfile(userDetails.getUser().getUserProfile());
             newMovie.setGenre(genreService.getGenre(imdbMovie.getGenres()));
-            newMovie.setDirector(directorService.createDirector(imdbMovie.getDirectors()));
             newMovie.setRank(movieObject.getRank());
+            imdbMovie.getDirectorList().forEach(director -> directorSet.add(directorService.createDirector(director.getName())));
             imdbMovie.getActorList().forEach(actor -> actorSet.add(actorService.createActor(actor.getName())));
             newMovie.setActors(actorSet);
+            newMovie.setDirectors(directorSet);
             return movieRepository.save(newMovie);
         }
     }
@@ -134,16 +136,16 @@ public class MovieService {
     }
 
     // This method searches for a movie given a director ID and returns that movie
-    public Director getDirector(Long movieId) {
-        LOGGER.info("calling getDirector method from service");
-        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Movie movie = movieRepository.findByUserProfileIdAndId(userDetails.getUser().getUserProfile().getId(), movieId);
-        if (movie == null) {
-            throw new InformationMissingException("there is no movie with an id of " + movieId + " associated with the " + userDetails.getUser().getEmailAddress() + " user account");
-        } else {
-            return movie.getDirector();
-        }
-    }
+//    public Director getDirector(Long movieId) {
+//        LOGGER.info("calling getDirector method from service");
+//        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        Movie movie = movieRepository.findByUserProfileIdAndId(userDetails.getUser().getUserProfile().getId(), movieId);
+//        if (movie == null) {
+//            throw new InformationMissingException("there is no movie with an id of " + movieId + " associated with the " + userDetails.getUser().getEmailAddress() + " user account");
+//        } else {
+//            return movie.getDirector();
+//        }
+//    }
 
     public Movie deleteMovie(Long movieId) {
         LOGGER.info("calling deleteMovie method from service");
@@ -188,7 +190,7 @@ public class MovieService {
         if(director == null){
             throw new InformationMissingException("director with name " + directorObject.getDirectorName() + " does not exist.");
         } else {
-            return movieRepository.findByUserProfileIdAndDirector(userDetails.getUser().getUserProfile().getId(), director);
+            return movieRepository.findByUserProfileIdAndDirectorsContaining(userDetails.getUser().getUserProfile().getId(), director);
         }
     }
 }

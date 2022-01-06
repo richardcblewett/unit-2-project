@@ -21,8 +21,7 @@ public class DirectorService {
         if (director != null) {
             return director;
         } else {
-            Director directorObject = new Director();
-            directorObject.setDirectorName(name);
+            Director directorObject = new Director(name);
             return directorRepository.save(directorObject);
         }
     }
