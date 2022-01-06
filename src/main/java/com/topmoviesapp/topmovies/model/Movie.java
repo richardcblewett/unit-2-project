@@ -1,8 +1,6 @@
 package com.topmoviesapp.topmovies.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.topmoviesapp.topmovies.service.DirectorService;
-import org.hibernate.mapping.ToOne;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -24,6 +22,18 @@ public class Movie {
     @Column
     private Long releaseYear;
 
+    @Column
+    private String description;
+
+    @Column
+    private Integer length;
+
+    @Column
+    private Double imdbRating;
+
+    @Column
+    private String contentRating;
+
     //LINKS TO OTHER TABLES
     @ManyToOne
     @JoinColumn(name = "genre_id")
@@ -38,18 +48,25 @@ public class Movie {
     @JsonIgnore
     private UserProfile userProfile;
 
+
     //https://stackoverflow.com/questions/42394095/many-to-many-relationship-between-two-entities-in-spring-boot/42396995
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable
     private Set<Actor> actors;
 
-    public Movie(Long id, String title, Long rank, Long releaseYear, Genre genre,  Director director) {
+    public Movie(Long id, String title, Long rank, Long releaseYear, String description, Integer length,
+                 Double imdbRating, String contentRating, Genre genre, Director director, UserProfile userProfile) {
         this.id = id;
         this.title = title;
         this.rank = rank;
         this.releaseYear = releaseYear;
+        this.description = description;
+        this.length = length;
+        this.imdbRating = imdbRating;
+        this.contentRating = contentRating;
         this.genre = genre;
         this.director = director;
+        this.userProfile = userProfile;
     }
 
     public Movie() {
@@ -111,4 +128,35 @@ public class Movie {
         this.userProfile = userProfile;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getLength() {
+        return length;
+    }
+
+    public void setLength(Integer length) {
+        this.length = length;
+    }
+
+    public Double getImdbRating() {
+        return imdbRating;
+    }
+
+    public void setImdbRating(Double imdbRating) {
+        this.imdbRating = imdbRating;
+    }
+
+    public String getContentRating() {
+        return contentRating;
+    }
+
+    public void setContentRating(String contentRating) {
+        this.contentRating = contentRating;
+    }
 }
