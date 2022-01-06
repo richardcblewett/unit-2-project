@@ -5,6 +5,7 @@ import com.topmoviesapp.topmovies.service.DirectorService;
 import org.hibernate.mapping.ToOne;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "movies")
@@ -36,6 +37,11 @@ public class Movie {
     @JoinColumn(name="userprofile_id")
     @JsonIgnore
     private UserProfile userProfile;
+
+    //https://stackoverflow.com/questions/42394095/many-to-many-relationship-between-two-entities-in-spring-boot/42396995
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable
+    private Set<Actor> actors;
 
     public Movie(Long id, String title, Long rank, Long releaseYear, Genre genre,  Director director) {
         this.id = id;
