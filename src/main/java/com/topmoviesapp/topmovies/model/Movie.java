@@ -3,6 +3,7 @@ package com.topmoviesapp.topmovies.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "movies")
@@ -46,6 +47,12 @@ public class Movie {
     @JoinColumn(name="userprofile_id")
     @JsonIgnore
     private UserProfile userProfile;
+
+
+    //https://stackoverflow.com/questions/42394095/many-to-many-relationship-between-two-entities-in-spring-boot/42396995
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable
+    private Set<Actor> actors;
 
     public Movie(Long id, String title, Long rank, Long releaseYear, String description, Integer length,
                  Double imdbRating, String contentRating, Genre genre, Director director, UserProfile userProfile) {
