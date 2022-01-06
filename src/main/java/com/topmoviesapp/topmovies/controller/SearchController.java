@@ -34,7 +34,7 @@ public class SearchController {
         return movieService.getMovieListByGenre(genre);
     }
 
-  @GetMapping(path = "/director")
+    @GetMapping(path = "/director")
     public List<Movie> getMovieListByDirector(@RequestBody Director directorObject){
         return movieService.getMovieListByDirector(directorObject);
     }

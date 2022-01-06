@@ -30,7 +30,6 @@ public class MovieResourceController {
         String id = getResults(searchResult);
         ImdbMovie imdbMovie = restTemplate.getForObject(url2 + apiKey + "/" + id, ImdbMovie.class);
         if (imdbMovie != null) {
-            imdbMovie.setDirectors(imdbMovie.getDirectors().split(",")[0]);
             imdbMovie.setGenres(imdbMovie.getGenres().split(",")[0]);
             return imdbMovie;
         } else {
