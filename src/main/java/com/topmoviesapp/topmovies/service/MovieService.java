@@ -4,6 +4,7 @@ import com.topmoviesapp.topmovies.exception.InformationExistsException;
 import com.topmoviesapp.topmovies.exception.InformationMissingException;
 import com.topmoviesapp.topmovies.imdbAPI.ImdbMovie;
 import com.topmoviesapp.topmovies.imdbAPI.MovieResourceService;
+import com.topmoviesapp.topmovies.model.Actor;
 import com.topmoviesapp.topmovies.model.Genre;
 import com.topmoviesapp.topmovies.model.Director;
 import com.topmoviesapp.topmovies.model.Movie;
@@ -15,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 @Service
@@ -26,6 +29,8 @@ public class MovieService {
     private DirectorRepository directorRepository;
     private DirectorService directorService;
     private MovieResourceService movieResourceService;
+    private ActorService actorService;
+
     private static final Logger LOGGER = Logger.getLogger(MovieService.class.getName());
 
     @Autowired
@@ -54,6 +59,10 @@ public class MovieService {
     @Autowired
     public void setMovieResourceService(MovieResourceService movieResourceService){this.movieResourceService = movieResourceService;}
 
+    @Autowired
+    public void setActorService(ActorService actorService){
+        this.actorService = actorService;
+    }
     //get all movies
     public List<Movie> getMovies() {
         LOGGER.info("calling getMovies method from service");
@@ -89,11 +98,18 @@ public class MovieService {
         if (movie != null) {
             throw new InformationExistsException("this movie is already associated with the " + userDetails.getUser().getEmailAddress() + " user account");
         } else {
+            if(movieRepository.existsByRank(movieObject.getRank())) {
+                throw new InformationExistsException("A movie with the rank " + movieObject.getRank() + " already exists");
+            }
             ImdbMovie imdbMovie = movieResourceService.getMovies(movieObject.getTitle());
+            Set<Actor> actorSet = new HashSet<>();
             Movie newMovie = new Movie(imdbMovie);
             newMovie.setUserProfile(userDetails.getUser().getUserProfile());
             newMovie.setGenre(genreService.getGenre(imdbMovie.getGenres()));
             newMovie.setDirector(directorService.createDirector(imdbMovie.getDirectors()));
+            newMovie.setRank(movieObject.getRank());
+            imdbMovie.getActorList().forEach(actor -> actorSet.add(actorService.createActor(actor.getName())));
+            newMovie.setActors(actorSet);
             return movieRepository.save(newMovie);
         }
     }
@@ -109,11 +125,10 @@ public class MovieService {
         if (movie == null) {
             throw new InformationMissingException("there is no movie with an id of " + movieId + " associated with the " + userDetails.getUser().getEmailAddress() + " user account");
         } else {
-            movie.setTitle(movieObject.getTitle());
+            if(movieRepository.existsByRank(movieObject.getRank())) {
+                throw new InformationExistsException("A movie with the rank " + movieObject.getRank() + " already exists");
+            }
             movie.setRank(movieObject.getRank());
-            movie.setReleaseYear(movieObject.getReleaseYear());
-            movie.setGenre(genreService.getGenre(movieObject.getGenre().getGenreName()));
-            movie.setDirector(directorService.createDirector(movieObject.getDirector().getDirectorName()));
             return movieRepository.save(movie);
         }
     }

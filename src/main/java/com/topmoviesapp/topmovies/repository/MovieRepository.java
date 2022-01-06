@@ -13,4 +13,5 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     List<Movie> findByUserProfileId(Long userProfileID);
     List<Movie> findByGenreAndUserProfileId(Genre genre, Long userProfileID);
     List<Movie> findByUserProfileIdAndDirector(Long userProfileID, Director director);
+    boolean existsByRank(Long rank);
 }

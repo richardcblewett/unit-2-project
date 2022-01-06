@@ -77,7 +77,6 @@ public class Movie {
         this.length = imdbMovie.getRuntimeMins();
         this.imdbRating = imdbMovie.getImDbRating();
         this.contentRating = imdbMovie.getContentRating();
-        this.actors = imdbMovie.getActorList();
         //this.genre = imdbMovie.getGenres();
         //this.director = imdbMovie.getDirectors();
     }
@@ -171,5 +170,13 @@ public class Movie {
 
     public void setContentRating(String contentRating) {
         this.contentRating = contentRating;
+    }
+
+    public Set<Actor> getActors() {
+        return actors;
+    }
+
+    public void setActors(Set<Actor> actors) {
+        this.actors = actors;
     }
 }
