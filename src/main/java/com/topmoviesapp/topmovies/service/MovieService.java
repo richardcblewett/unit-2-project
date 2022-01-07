@@ -162,11 +162,11 @@ public class MovieService {
     public List<Movie> getMovieListByGenre(Genre genreObject) {
         LOGGER.info("calling MovieListByGenre method from service");
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Genre genre = genreRepository.findGenreByName(genreObject.getName());
+        Genre genre = genreRepository.findGenreByNameIgnoreCase(genreObject.getName());
         if (genre == null) {
             throw new InformationMissingException("there are no movies associated with the " + genreObject.getName() + " genre and " + userDetails.getUser().getEmailAddress() + " user account");
         } else {
-            return movieRepository.findByUserProfileIdAndGenresContaining(userDetails.getUser().getUserProfile().getId(), genre);
+            return movieRepository.findByUserProfileIdAndGenresContainingIgnoreCase(userDetails.getUser().getUserProfile().getId(), genre);
         }
     }
 
