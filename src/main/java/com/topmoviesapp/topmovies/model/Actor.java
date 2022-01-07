@@ -1,12 +1,11 @@
 package com.topmoviesapp.topmovies.model;
 
-
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "genres")
-public class Genre {
+@Table(name = "actors")
+public class Actor {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,18 +14,19 @@ public class Genre {
     @Column
     private String name;
 
-    @ManyToMany(mappedBy = "genres")
+    //https://stackoverflow.com/questions/42394095/many-to-many-relationship-between-two-entities-in-spring-boot/42396995
+    @ManyToMany(mappedBy = "actors")
     private Set<Movie> movies;
 
-    public Genre() {
+    public Actor() {
     }
 
-    public Genre(String name) {
+    public Actor(Long id, String name) {
+        this.id = id;
         this.name = name;
     }
 
-    public Genre(Long id, String name) {
-        this.id = id;
+    public Actor(String name) {
         this.name = name;
     }
 

@@ -44,7 +44,7 @@ public class UserService {
     public void setUserProfileRepository(UserProfileRepository userProfileRepository) {this.userProfileRepository = userProfileRepository;}
     
     public User createUser(User userObject){
-        if(!userRepository.existsByEmailAddress(userObject.getEmailAddress())){
+        if(!userRepository.existsByEmailAddressIgnoreCase(userObject.getEmailAddress())){
             //if the user does not exist, we have to create the user and user profile
             userObject.setPassword(passwordEncoder.encode(userObject.getPassword()));
             UserProfile userProfile = new UserProfile(userObject);
@@ -58,9 +58,8 @@ public class UserService {
     }
 
     public User findUserByEmailAddress(String email) {
-        return userRepository.findUserByEmailAddress(email);
+        return userRepository.findUserByEmailAddressIgnoreCase(email);
     }
-
 
     // Authenticate user and generate a token
     public ResponseEntity<?> loginUser(LoginRequest loginRequest) {

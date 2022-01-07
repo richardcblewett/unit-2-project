@@ -1,6 +1,7 @@
 package com.topmoviesapp.topmovies.controller;
 
 
+import com.topmoviesapp.topmovies.model.Actor;
 import com.topmoviesapp.topmovies.model.Genre;
 import com.topmoviesapp.topmovies.model.Director;
 import com.topmoviesapp.topmovies.model.Movie;
@@ -26,16 +27,23 @@ public class SearchController {
         this.movieService = movieService;
     }
 
-
-    // http://localhost:9092/api/search/genre
+    //http://localhost:9092/api/search/genre
     @GetMapping("/genre")
     public List<Movie> getMovieListByGenre(@RequestBody Genre genre) {
         LOGGER.info("calling getMovieListByGenre method from controller");
         return movieService.getMovieListByGenre(genre);
     }
 
-  @GetMapping(path = "/director")
+    //http://localhost:9092/api/search/director
+    @GetMapping(path = "/director")
     public List<Movie> getMovieListByDirector(@RequestBody Director directorObject){
+        LOGGER.info("calling getMovieListByGenre method from controller");
         return movieService.getMovieListByDirector(directorObject);
+    }
+
+    //http://localhost:9092/api/search/actor
+    @GetMapping(path = "/actor")
+    public List<Movie> getMovieListByActor(@RequestBody Actor actorObject){
+        return movieService.getMovieListByActor(actorObject);
     }
 }

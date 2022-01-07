@@ -18,12 +18,12 @@ public class GenreService {
     //checks if a specific genre exists. if one does not, one is created.
     public Genre getGenre(String name){
         LOGGER.info("calling getGenre method from service");
-        if (!genreRepository.existsByGenreName(name)) {
+        if (!genreRepository.existsByNameIgnoreCase(name)) {
             Genre genreObject = new Genre();
-            genreObject.setGenreName(name);
+            genreObject.setName(name);
             return genreRepository.save(genreObject);
         } else {
-            return genreRepository.findGenreByGenreName(name);
+            return genreRepository.findGenreByNameIgnoreCase(name);
         }
     }
 }

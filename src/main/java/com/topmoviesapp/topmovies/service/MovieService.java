@@ -2,9 +2,13 @@ package com.topmoviesapp.topmovies.service;
 
 import com.topmoviesapp.topmovies.exception.InformationExistsException;
 import com.topmoviesapp.topmovies.exception.InformationMissingException;
+import com.topmoviesapp.topmovies.imdbAPI.ImdbMovie;
+import com.topmoviesapp.topmovies.imdbAPI.MovieResourceService;
+import com.topmoviesapp.topmovies.model.Actor;
 import com.topmoviesapp.topmovies.model.Genre;
 import com.topmoviesapp.topmovies.model.Director;
 import com.topmoviesapp.topmovies.model.Movie;
+import com.topmoviesapp.topmovies.repository.ActorRepository;
 import com.topmoviesapp.topmovies.repository.DirectorRepository;
 import com.topmoviesapp.topmovies.repository.GenreRepository;
 import com.topmoviesapp.topmovies.repository.MovieRepository;
@@ -13,16 +17,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 @Service
 public class MovieService {
     private MovieRepository movieRepository;
     private GenreRepository genreRepository;
+    private ActorRepository actorRepository;
     private GenreService genreService;
     private DirectorRepository directorRepository;
     private DirectorService directorService;
+    private MovieResourceService movieResourceService;
+    private ActorService actorService;
+
     private static final Logger LOGGER = Logger.getLogger(MovieService.class.getName());
 
     @Autowired
@@ -40,7 +50,6 @@ public class MovieService {
         this.directorService = directorService;
     }
 
-
     @Autowired
     public void setGenreRepository(GenreRepository genreRepository){this.genreRepository = genreRepository;}
 
@@ -49,6 +58,18 @@ public class MovieService {
         this.directorRepository = directorRepository;
     }
 
+    @Autowired
+    public void setMovieResourceService(MovieResourceService movieResourceService){this.movieResourceService = movieResourceService;}
+
+    @Autowired
+    public void setActorService(ActorService actorService){
+        this.actorService = actorService;
+    }
+
+    @Autowired
+    public void setActorRepository(ActorRepository actorRepository){
+        this.actorRepository = actorRepository;
+    }
     //get all movies
     public List<Movie> getMovies() {
         LOGGER.info("calling getMovies method from service");
@@ -80,14 +101,27 @@ public class MovieService {
     public Movie createMovie(Movie movieObject) {
         LOGGER.info("calling createMovie method from service");
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Movie movie = movieRepository.findByUserProfileIdAndTitle(userDetails.getUser().getUserProfile().getId(), movieObject.getTitle());
+        Movie movie = movieRepository.findTopByUserProfileIdAndTitleContainsIgnoreCase(userDetails.getUser().getUserProfile().getId(), movieObject.getTitle());
         if (movie != null) {
             throw new InformationExistsException("this movie is already associated with the " + userDetails.getUser().getEmailAddress() + " user account");
         } else {
-            movieObject.setUserProfile(userDetails.getUser().getUserProfile());
-            movieObject.setGenre(genreService.getGenre(movieObject.getGenre().getGenreName()));
-            movieObject.setDirector(directorService.createDirector(movieObject.getDirector()));
-            return movieRepository.save(movieObject);
+            if(movieRepository.existsByRank(movieObject.getRank()) && movieObject.getRank() != null) {
+                throw new InformationExistsException("A movie with the rank " + movieObject.getRank() + " already exists");
+            }
+            ImdbMovie imdbMovie = movieResourceService.getMovies(movieObject.getTitle());
+            Set<Actor> actorSet = new HashSet<>();
+            Set<Genre> genreSet = new HashSet<>();
+            Set<Director> directorSet = new HashSet<>();
+            Movie newMovie = new Movie(imdbMovie);
+            newMovie.setUserProfile(userDetails.getUser().getUserProfile());
+            newMovie.setRank(movieObject.getRank());
+            imdbMovie.getActorList().forEach(actor -> actorSet.add(actorService.createActor(actor.getName())));
+            imdbMovie.getGenreList().forEach(item -> genreSet.add(genreService.getGenre(item.getValue())));
+            imdbMovie.getDirectorList().forEach(director -> directorSet.add(directorService.createDirector(director.getName())));
+            newMovie.setActors(actorSet);
+            newMovie.setGenre(genreSet);
+            newMovie.setDirectors(directorSet);
+            return movieRepository.save(newMovie);
         }
     }
 
@@ -102,24 +136,11 @@ public class MovieService {
         if (movie == null) {
             throw new InformationMissingException("there is no movie with an id of " + movieId + " associated with the " + userDetails.getUser().getEmailAddress() + " user account");
         } else {
-            movie.setTitle(movieObject.getTitle());
+            if(movieRepository.existsByRank(movieObject.getRank()) && movieObject.getRank() != null) {
+                throw new InformationExistsException("A movie with the rank " + movieObject.getRank() + " already exists");
+            }
             movie.setRank(movieObject.getRank());
-            movie.setReleaseYear(movieObject.getReleaseYear());
-            movie.setGenre(genreService.getGenre(movieObject.getGenre().getGenreName()));
-            movie.setDirector(directorService.createDirector(movieObject.getDirector()));
             return movieRepository.save(movie);
-        }
-    }
-
-    // This method searches for a movie given a director ID and returns that movie
-    public Director getDirector(Long movieId) {
-        LOGGER.info("calling getDirector method from service");
-        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Movie movie = movieRepository.findByUserProfileIdAndId(userDetails.getUser().getUserProfile().getId(), movieId);
-        if (movie == null) {
-            throw new InformationMissingException("there is no movie with an id of " + movieId + " associated with the " + userDetails.getUser().getEmailAddress() + " user account");
-        } else {
-            return movie.getDirector();
         }
     }
 
@@ -135,26 +156,14 @@ public class MovieService {
         }
     }
 
-    // This method searches for a movie given a genre ID and returns that movie
-    public Genre getGenre(Long movieId) {
-        LOGGER.info("calling getGenre method from service");
-        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Movie movie = movieRepository.findByUserProfileIdAndId(userDetails.getUser().getUserProfile().getId(), movieId);
-        if (movie == null) {
-            throw new InformationMissingException("there is no movie with an id of " + movieId + " associated with the " + userDetails.getUser().getEmailAddress() + " user account");
-        } else {
-            return movie.getGenre();
-        }
-    }
-
     public List<Movie> getMovieListByGenre(Genre genreObject) {
         LOGGER.info("calling MovieListByGenre method from service");
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Genre genre = genreRepository.findGenreByGenreName(genreObject.getGenreName());
+        Genre genre = genreRepository.findGenreByNameIgnoreCase(genreObject.getName());
         if (genre == null) {
-            throw new InformationMissingException("there are no movies associated with the " + genreObject.getGenreName() + " genre and " + userDetails.getUser().getEmailAddress() + " user account");
+            throw new InformationMissingException("there are no movies associated with the " + genreObject.getName() + " genre and " + userDetails.getUser().getEmailAddress() + " user account");
         } else {
-            return movieRepository.findByGenreAndUserProfileId(genre, userDetails.getUser().getUserProfile().getId());
+            return movieRepository.findByUserProfileIdAndGenresContainingIgnoreCase(userDetails.getUser().getUserProfile().getId(), genre);
         }
     }
 
@@ -162,11 +171,21 @@ public class MovieService {
     public List<Movie> getMovieListByDirector(Director directorObject) {
         LOGGER.info("calling createMovie method from service");
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Director director = directorRepository.findDirectorByDirectorName(directorObject.getDirectorName());
+        Director director = directorRepository.findDirectorByDirectorNameIgnoreCase(directorObject.getDirectorName());
         if(director == null){
             throw new InformationMissingException("director with name " + directorObject.getDirectorName() + " does not exist.");
         } else {
-            return movieRepository.findByUserProfileIdAndDirector(userDetails.getUser().getUserProfile().getId(), director);
+            return movieRepository.findByUserProfileIdAndDirectorsContainingIgnoreCase(userDetails.getUser().getUserProfile().getId(), director);
+        }
+    }
+
+    public List<Movie> getMovieListByActor(Actor actorObject) {
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Actor actor = actorRepository.findActorByNameIgnoreCase(actorObject.getName());
+        if(actor == null){
+            throw new InformationMissingException("actir with name " + actorObject.getName() + " does not exist.");
+        } else {
+            return movieRepository.findByUserProfileIdAndActorsContainingIgnoreCase(userDetails.getUser().getUserProfile().getId(), actor);
         }
     }
 }

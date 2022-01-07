@@ -1,8 +1,10 @@
 package com.topmoviesapp.topmovies.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.topmoviesapp.topmovies.imdbAPI.ImdbMovie;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "movies")
@@ -12,7 +14,7 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(unique = true)
     private String title;
 
     @Column(unique = true)
@@ -21,27 +23,68 @@ public class Movie {
     @Column
     private Long releaseYear;
 
+    @Column(columnDefinition = "text")
+    private String description;
+
+    @Column
+    private Integer length;
+
+    @Column
+    private Double imdbRating;
+
+    @Column
+    private String contentRating;
+
     //LINKS TO OTHER TABLES
-    @ManyToOne
-    @JoinColumn(name = "genre_id")
-    private Genre genre;
+    
+    @ManyToMany(fetch= FetchType.EAGER, cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable
+    private Set<Director> directors;
 
     @ManyToOne
-    @JoinColumn(name = "director_id")
-    private Director director;
-
-    @ManyToOne
-    @JoinColumn(name="userprofile_id")
+    @JoinColumn(name = "userprofile_id")
     @JsonIgnore
     private UserProfile userProfile;
 
-    public Movie(Long id, String title, Long rank, Long releaseYear, Genre genre,  Director director) {
+    //https://stackoverflow.com/questions/42394095/many-to-many-relationship-between-two-entities-in-spring-boot/42396995
+    @ManyToMany(fetch= FetchType.EAGER, cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable
+    private Set<Actor> actors;
+
+    @ManyToMany(fetch= FetchType.EAGER, cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable
+    private Set<Genre> genres;
+
+
+    public Movie(Long id, String title, Long rank, Long releaseYear, String description, Integer length,
+                 Double imdbRating, String contentRating, /*Director director, Genre genre,*/ UserProfile userProfile) {
         this.id = id;
         this.title = title;
         this.rank = rank;
         this.releaseYear = releaseYear;
-        this.genre = genre;
-        this.director = director;
+        this.description = description;
+        this.length = length;
+        this.imdbRating = imdbRating;
+        this.contentRating = contentRating;
+        this.userProfile = userProfile;
+    }
+
+    public Movie(ImdbMovie imdbMovie) {
+        this.title = imdbMovie.getTitle();
+        this.releaseYear = imdbMovie.getYear();
+        this.description = imdbMovie.getPlot();
+        this.length = imdbMovie.getRuntimeMins();
+        this.imdbRating = imdbMovie.getImDbRating();
+        this.contentRating = imdbMovie.getContentRating();
     }
 
     public Movie() {
@@ -79,22 +122,6 @@ public class Movie {
         this.releaseYear = releaseYear;
     }
 
-    public Genre getGenre() {
-        return genre;
-    }
-
-    public void setGenre(Genre genre) {
-        this.genre = genre;
-    }
-
-    public Director getDirector() {
-        return director;
-    }
-
-    public void setDirector(Director director) {
-        this.director = director;
-    }
-
     public UserProfile getUserProfile() {
         return userProfile;
     }
@@ -103,4 +130,59 @@ public class Movie {
         this.userProfile = userProfile;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getLength() {
+        return length;
+    }
+
+    public void setLength(Integer length) {
+        this.length = length;
+    }
+
+    public Double getImdbRating() {
+        return imdbRating;
+    }
+
+    public void setImdbRating(Double imdbRating) {
+        this.imdbRating = imdbRating;
+    }
+
+    public String getContentRating() {
+        return contentRating;
+    }
+
+    public void setContentRating(String contentRating) {
+        this.contentRating = contentRating;
+    }
+
+    public Set<Actor> getActors() {
+        return actors;
+    }
+
+    public void setActors(Set<Actor> actors) {
+        this.actors = actors;
+    }
+
+    public Set<Genre> getGenre() {
+        return genres;
+    }
+
+    public void setGenre(Set<Genre> genres) {
+        this.genres = genres;
+    }
+
+    public Set<Director> getDirectors() {
+        return directors;
+    }
+
+    public void setDirectors(Set<Director> directors) {
+        this.directors = directors;
+    }
 }

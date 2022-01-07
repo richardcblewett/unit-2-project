@@ -1,7 +1,5 @@
 package com.topmoviesapp.topmovies.controller;
 
-import com.topmoviesapp.topmovies.model.Director;
-import com.topmoviesapp.topmovies.model.Genre;
 import com.topmoviesapp.topmovies.model.Movie;
 import com.topmoviesapp.topmovies.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,20 +47,6 @@ public class MovieController {
     public Movie updateMovie(@PathVariable Long movieId, @RequestBody Movie movieObject) {
         LOGGER.info("calling updateMovie method from controller");
         return movieService.updateMovie(movieId, movieObject);
-    }
-
-    // http://localhost:9092/api/movies/{movie-id}/director
-    @GetMapping("/movies/{movieId}/director")
-    public Director getDirector(@PathVariable Long movieId) {
-        LOGGER.info("calling getDirector method from controller");
-        return movieService.getDirector(movieId);
-    }
-
-    // http://localhost:9092/api/movies/{movie-id}/genre
-    @GetMapping("/movies/{movieId}/genre")
-    public Genre getGenre(@PathVariable Long movieId) {
-        LOGGER.info("calling getGenre method from controller");
-        return movieService.getGenre(movieId);
     }
 
     // http://localhost:9092/api/movies/"{movieId}"
