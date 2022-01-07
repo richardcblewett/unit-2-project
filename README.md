@@ -19,14 +19,16 @@ The movies will include the title, the director, the release date, and the genre
 ## Unsolved Problems
 
 ## Hurdles Overcome
-Autowire is necessary, or else objects return null point exception. (Discovered when debugging code.)
-
+- Autowire is necessary, or else objects return null point exception. (Discovered when debugging code.)
+- Figuring out how to implement a many-to-many relationship in Spring. Credit to <a href="doc:introduction" target="https://stackoverflow.com/questions/42394095/many-to-many-relationship-between-two-entities-in-spring-boot/42396995">Stackoverflow</a>
+- Convert 
 ## Planning Documentation
 
 ### GoogleDoc(?)
 
-### ERD 
-{inset photo}
+### ERD
+
+![](img/erd.png)
 
 ## Endpoints:  
 

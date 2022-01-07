@@ -105,7 +105,7 @@ public class MovieService {
         if (movie != null) {
             throw new InformationExistsException("this movie is already associated with the " + userDetails.getUser().getEmailAddress() + " user account");
         } else {
-            if(movieRepository.existsByRank(movieObject.getRank()) && movieObject.getRank() != null) {
+            if(movieRepository.existsByUserProfileIdAndRank(userDetails.getUser().getUserProfile().getId(), movieObject.getRank()) && movieObject.getRank() != null) {
                 throw new InformationExistsException("A movie with the rank " + movieObject.getRank() + " already exists");
             }
             ImdbMovie imdbMovie = movieResourceService.getMovies(movieObject.getTitle());
@@ -136,7 +136,7 @@ public class MovieService {
         if (movie == null) {
             throw new InformationMissingException("there is no movie with an id of " + movieId + " associated with the " + userDetails.getUser().getEmailAddress() + " user account");
         } else {
-            if(movieRepository.existsByRank(movieObject.getRank()) && movieObject.getRank() != null) {
+            if(movieRepository.existsByUserProfileIdAndRank(userDetails.getUser().getUserProfile().getId(), movieObject.getRank()) && movieObject.getRank() != null) {
                 throw new InformationExistsException("A movie with the rank " + movieObject.getRank() + " already exists");
             }
             movie.setRank(movieObject.getRank());
