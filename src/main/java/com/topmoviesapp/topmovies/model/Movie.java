@@ -14,10 +14,10 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column
     private String title;
 
-    @Column(unique = true)
+    @Column
     private Long rank;
 
     @Column
