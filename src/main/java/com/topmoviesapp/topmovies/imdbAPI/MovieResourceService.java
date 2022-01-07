@@ -13,6 +13,7 @@ public class MovieResourceService {
     private RestTemplate restTemplate;
 
     private String apiKey = "k_d9vzzqby";
+    //private String apiKey = "k_fnfzs9if";
 
     private static String url = "https://imdb-api.com/en/API/Search/";
     private static String url2 = "https://imdb-api.com/en/API/Title/";
@@ -26,7 +27,6 @@ public class MovieResourceService {
         String id = searchResult.results.get(0).id;
         ImdbMovie imdbMovie = restTemplate.getForObject(url2 + apiKey + "/" + id, ImdbMovie.class);
         if (imdbMovie != null) {
-            imdbMovie.setGenres(imdbMovie.getGenres().split(",")[0]);
             return imdbMovie;
         } else {
             throw new InformationMissingException("movie " + title + " was not found in the database");

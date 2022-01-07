@@ -5,6 +5,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "genres")
@@ -15,37 +16,36 @@ public class Genre {
     private Long id;
 
     @Column
-    private String genreName;
+    private String name;
 
-    @OneToMany(mappedBy = "genre", orphanRemoval = true)
-    @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Movie> movieList;
+    @ManyToMany(mappedBy = "genres")
+    private Set<Movie> movies;
 
     public Genre() {
     }
 
-    public Genre(String genreName) {
-        this.genreName = genreName;
+    public Genre(String name) {
+        this.name = name;
     }
 
-    public Genre(Long id, String genreName) {
+    public Genre(Long id, String name) {
         this.id = id;
-        this.genreName = genreName;
+        this.name = name;
     }
 
-    public Long getGenreID() {
+    public Long getId() {
         return id;
     }
 
-    public void setGenreID(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getGenreName() {
-        return genreName;
+    public String getName() {
+        return name;
     }
 
-    public void setGenreName(String genreName) {
-        this.genreName = genreName;
+    public void setName(String name) {
+        this.name = name;
     }
 }

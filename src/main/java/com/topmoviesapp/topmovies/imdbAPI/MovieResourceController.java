@@ -26,11 +26,10 @@ public class MovieResourceController {
     @GetMapping("/movies")
     public ImdbMovie getMovies() {
         // https://imdb-api.com/en/API/Search/k_d9vzzqby/inception%202010
-        SearchResult searchResult = restTemplate.getForObject(url + apiKey + "/" + "inception", SearchResult.class);
+        SearchResult searchResult = restTemplate.getForObject(url + apiKey + "/" + "matrix", SearchResult.class);
         String id = getResults(searchResult);
         ImdbMovie imdbMovie = restTemplate.getForObject(url2 + apiKey + "/" + id, ImdbMovie.class);
         if (imdbMovie != null) {
-            imdbMovie.setGenres(imdbMovie.getGenres().split(",")[0]);
             return imdbMovie;
         } else {
             throw new InformationMissingException("movie ____ was not found in the database");
