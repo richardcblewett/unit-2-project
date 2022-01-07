@@ -1,10 +1,12 @@
 package com.topmoviesapp.topmovies.model;
 
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 import javax.persistence.*;
-import java.util.List;
+
+import java.util.Set;
 
 @Entity
 @Table(name = "directors")
@@ -17,9 +19,8 @@ public class Director {
     @Column
     private String directorName;
 
-    @OneToMany(mappedBy = "director", orphanRemoval = true)
-    @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Movie> movieList;
+    @ManyToMany(mappedBy = "directors")
+    private Set<Movie> movies;
 
     public Director() {
     }
@@ -42,5 +43,14 @@ public class Director {
 
     public void setDirectorName(String directorName) {
         this.directorName = directorName;
+    }
+
+    @JsonBackReference
+    public Set<Movie> getMovies() {
+        return movies;
+    }
+
+    public void setMovies(Set<Movie> movies) {
+        this.movies = movies;
     }
 }

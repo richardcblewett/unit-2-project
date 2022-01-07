@@ -1,6 +1,8 @@
 package com.topmoviesapp.topmovies.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.topmoviesapp.topmovies.imdbAPI.ImdbMovie;
 
 import javax.persistence.*;
@@ -36,9 +38,10 @@ public class Movie {
     private String contentRating;
 
     //LINKS TO OTHER TABLES
-    @ManyToOne
-    @JoinColumn(name = "director_id")
-    private Director director;
+    
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable
+    private Set<Director> directors;
 
     @ManyToOne
     @JoinColumn(name = "userprofile_id")
@@ -56,7 +59,7 @@ public class Movie {
 
 
     public Movie(Long id, String title, Long rank, Long releaseYear, String description, Integer length,
-                 Double imdbRating, String contentRating, Director director, UserProfile userProfile) {
+                 Double imdbRating, String contentRating, Director director, Genre genre, UserProfile userProfile) {
         this.id = id;
         this.title = title;
         this.rank = rank;
@@ -66,6 +69,7 @@ public class Movie {
         this.imdbRating = imdbRating;
         this.contentRating = contentRating;
         this.director = director;
+        this.genre = genre;
         this.userProfile = userProfile;
     }
 
@@ -76,8 +80,6 @@ public class Movie {
         this.length = imdbMovie.getRuntimeMins();
         this.imdbRating = imdbMovie.getImDbRating();
         this.contentRating = imdbMovie.getContentRating();
-        //this.genre = imdbMovie.getGenres();
-        //this.director = imdbMovie.getDirectors();
     }
 
     public Movie() {
@@ -113,14 +115,6 @@ public class Movie {
 
     public void setReleaseYear(Long releaseYear) {
         this.releaseYear = releaseYear;
-    }
-
-    public Director getDirector() {
-        return director;
-    }
-
-    public void setDirector(Director director) {
-        this.director = director;
     }
 
     public UserProfile getUserProfile() {
@@ -179,4 +173,11 @@ public class Movie {
         this.genres = genres;
     }
 
+    public Set<Director> getDirectors() {
+        return directors;
+    }
+
+    public void setDirectors(Set<Director> directors) {
+        this.directors = directors;
+    }
 }

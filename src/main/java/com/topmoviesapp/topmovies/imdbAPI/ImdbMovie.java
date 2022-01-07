@@ -7,12 +7,12 @@ import java.util.Set;
 
 public class ImdbMovie {
     private String title;
-    private String directors;
     private String genres;
     private Long year;
     private String plot;
     private Integer runtimeMins;
     private Set<ImdbActor> actorList;
+    private Set<ImdbDirector> directorList;
     private Double imDbRating;
     private String contentRating;
     private Set<ImdbGenre> genreList;
@@ -21,9 +21,8 @@ public class ImdbMovie {
     public ImdbMovie() {
     }
 
-    public ImdbMovie(String title, String directors, String genres, Set<ImdbGenre> genreList, Long year, String plot, Integer runtimeMins, Set<ImdbActor> actorList, Double imDbRating, String contentRating) {
+    public ImdbMovie(String title, String genres, Long year, String plot, Integer runtimeMins, Set<ImdbActor> actorList, Double imDbRating, String contentRating) {
         this.title = title;
-        this.directors = directors;
         this.genres = genres;
         this.year = year;
         this.plot = plot;
@@ -31,7 +30,6 @@ public class ImdbMovie {
         this.actorList = actorList;
         this.imDbRating = imDbRating;
         this.contentRating = contentRating;
-        this.genreList = genreList;
     }
 
     public String getTitle() {
@@ -42,13 +40,6 @@ public class ImdbMovie {
         this.title = title;
     }
 
-    public String getDirectors() {
-        return directors;
-    }
-
-    public void setDirectors(String directors) {
-        this.directors = directors;
-    }
 
     public String getGenres() {
         return genres;
@@ -112,5 +103,12 @@ public class ImdbMovie {
 
     public void setGenreList(Set<ImdbGenre> genreList) {
         this.genreList = genreList;
+    }
+    public Set<ImdbDirector> getDirectorList() {
+        return directorList;
+    }
+
+    public void setDirectorList(Set<ImdbDirector> directorList) {
+        this.directorList = directorList;
     }
 }
