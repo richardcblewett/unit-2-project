@@ -50,24 +50,24 @@ The movies will include the title, the director, the release date, and the genre
 
 ## User Stories:
 ### MVP
--[] As a user, I want to be able to add movies to my list of movies.
--[] As a user, I want to be able to rank my top movies.
--[] As a user, I want to be able to find out who directed one of my movies.
--[] As a user, I want to be able to find out what genre my movie is in.
+-[x] As a user, I want to be able to add movies to my list of movies.
+-[x] As a user, I want to be able to rank my top movies.
+-[x] As a user, I want to be able to find out who directed one of my movies.
+-[x] As a user, I want to be able to find out what genre my movie is in.
 
 
 ### SILVER
--[] As a user, I want to be able to list my movies by genre.
--[] As a user, I want to be able to list my movies by director.
--[] As a user, I want to be able to find out which movie is my nth rank movie.
+-[x] As a user, I want to be able to find my movies by genre.
+-[x] As a user, I want to be able to find my movies by director.
+-[x] As a user, I want to be able to list my movies in ranking order.
 
 
 ### GOLD
--[] As a user, I want to be able to find my top movies based on the actor.
+-[x] As a user, I want to be able to find my top movies based on the actor.
 
 
 ### PLATINUM
--[] Based on the user’s input of a movie name, we should be able to pull details from an API so the user does not have to fill out the movie details.
+-[x] Based on the user’s input of a movie name, we should be able to pull details from an API so the user does not have to fill out the movie details.
 
 
 
