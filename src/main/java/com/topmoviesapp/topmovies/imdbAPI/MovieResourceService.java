@@ -12,8 +12,8 @@ public class MovieResourceService {
     @Autowired
     private RestTemplate restTemplate;
 
-    private String apiKey = "k_d9vzzqby";
-    //private String apiKey = "k_fnfzs9if";
+    //private String apiKey = "k_d9vzzqby";
+    private String apiKey = "k_fnfzs9if";
 
     private static String url = "https://imdb-api.com/en/API/Search/";
     private static String url2 = "https://imdb-api.com/en/API/Title/";

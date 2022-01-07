@@ -111,27 +111,17 @@ public class MovieService {
             }
             ImdbMovie imdbMovie = movieResourceService.getMovies(movieObject.getTitle());
             Set<Actor> actorSet = new HashSet<>();
-
             Set<Genre> genreSet = new HashSet<>();
-            Movie newMovie = new Movie(imdbMovie);
-            newMovie.setUserProfile(userDetails.getUser().getUserProfile());
-            newMovie.setDirector(directorService.createDirector(imdbMovie.getDirectors()));
-
             Set<Director> directorSet = new HashSet<>();
             Movie newMovie = new Movie(imdbMovie);
             newMovie.setUserProfile(userDetails.getUser().getUserProfile());
-            newMovie.setGenre(genreService.getGenre(imdbMovie.getGenres()));
-
             newMovie.setRank(movieObject.getRank());
-            imdbMovie.getDirectorList().forEach(director -> directorSet.add(directorService.createDirector(director.getName())));
             imdbMovie.getActorList().forEach(actor -> actorSet.add(actorService.createActor(actor.getName())));
-            newMovie.setActors(actorSet);
-
             imdbMovie.getGenreList().forEach(item -> genreSet.add(genreService.getGenre(item.getValue())));
+            imdbMovie.getDirectorList().forEach(director -> directorSet.add(directorService.createDirector(director.getName())));
+            newMovie.setActors(actorSet);
             newMovie.setGenre(genreSet);
-
             newMovie.setDirectors(directorSet);
-
             return movieRepository.save(newMovie);
         }
     }
