@@ -15,6 +15,7 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     List<Movie> findByUserProfileIdAndGenresContainingIgnoreCase(Long userProfileID,Genre genre);
     List<Movie> findByUserProfileIdAndDirectorsContainingIgnoreCase(Long userProfileID, Director director);
     List<Movie> findByUserProfileIdAndActorsContainingIgnoreCase(Long userProfileID, Actor actor);
+    List<Movie> findByUserProfileIdAndImdbRatingGreaterThanEqual(Long userProfileID, double rating);
     boolean existsByRank(Long rank);
     boolean existsByTitleIgnoreCase(String movieName);
 

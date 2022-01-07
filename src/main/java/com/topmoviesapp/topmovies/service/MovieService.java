@@ -183,9 +183,19 @@ public class MovieService {
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Actor actor = actorRepository.findActorByNameIgnoreCase(actorObject.getName());
         if(actor == null){
-            throw new InformationMissingException("actir with name " + actorObject.getName() + " does not exist.");
+            throw new InformationMissingException("actor with name " + actorObject.getName() + " does not exist.");
         } else {
             return movieRepository.findByUserProfileIdAndActorsContainingIgnoreCase(userDetails.getUser().getUserProfile().getId(), actor);
+        }
+    }
+
+    public List<Movie> getMovieListByRating(Movie movieObject) {
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<Movie> movie = movieRepository.findByUserProfileIdAndImdbRatingGreaterThanEqual(userDetails.getUser().getUserProfile().getId(), movieObject.getImdbRating());
+        if(movie.isEmpty()){
+            throw new InformationMissingException("No movie found with rating of " + movieObject.getImdbRating());
+        } else {
+            return movie;
         }
     }
 }
