@@ -69,3 +69,10 @@ Autowire is necessary, or else objects return null point exception. (Discovered 
 
 
 ## Installation Instructions
+1. Fork and Clone this repository.
+2. Make sure PostGreSql is installed on your computer
+   1. If PostGreSQL is not installed, install the program from : https://www.postgresql.org/download/
+3. Make sure pgAdmin is installed on your computer
+   1. If pgAdmin is not installed, install the program from: https://www.pgadmin.org/download/
+4. Open up pgAdmin and create a database called "topmoviesapp"
+5. Make sure the username and password used in creation of the "topmoviesapp" database is in the repository file: "src/main/resources/application-dev.properties"
