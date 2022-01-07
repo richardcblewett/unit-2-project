@@ -101,15 +101,12 @@ public class MovieService {
     public Movie createMovie(Movie movieObject) {
         LOGGER.info("calling createMovie method from service");
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Movie movie = movieRepository.findByUserProfileIdAndTitleIgnoreCase(userDetails.getUser().getUserProfile().getId(), movieObject.getTitle());
+        Movie movie = movieRepository.findTopByUserProfileIdAndTitleContainsIgnoreCase(userDetails.getUser().getUserProfile().getId(), movieObject.getTitle());
         if (movie != null) {
             throw new InformationExistsException("this movie is already associated with the " + userDetails.getUser().getEmailAddress() + " user account");
         } else {
             if(movieRepository.existsByRank(movieObject.getRank()) && movieObject.getRank() != null) {
                 throw new InformationExistsException("A movie with the rank " + movieObject.getRank() + " already exists");
-            }
-            if(movieRepository.existsByTitle(movieObject.getTitle())){
-                throw new InformationExistsException("A movie with the name " + movieObject.getTitle() + " already exists");
             }
             ImdbMovie imdbMovie = movieResourceService.getMovies(movieObject.getTitle());
             Set<Actor> actorSet = new HashSet<>();

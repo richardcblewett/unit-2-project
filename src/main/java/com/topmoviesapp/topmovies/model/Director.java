@@ -1,6 +1,7 @@
 package com.topmoviesapp.topmovies.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 import javax.persistence.*;
@@ -19,6 +20,7 @@ public class Director {
     private String directorName;
 
     @ManyToMany(mappedBy = "directors")
+    @JsonIgnore
     private Set<Movie> movies;
 
     public Director() {
@@ -44,7 +46,6 @@ public class Director {
         this.directorName = directorName;
     }
 
-    @JsonBackReference
     public Set<Movie> getMovies() {
         return movies;
     }
