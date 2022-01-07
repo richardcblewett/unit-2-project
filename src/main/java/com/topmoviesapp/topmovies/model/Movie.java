@@ -37,7 +37,10 @@ public class Movie {
 
     //LINKS TO OTHER TABLES
     
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
     @JoinTable
     private Set<Director> directors;
 
@@ -47,11 +50,17 @@ public class Movie {
     private UserProfile userProfile;
 
     //https://stackoverflow.com/questions/42394095/many-to-many-relationship-between-two-entities-in-spring-boot/42396995
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
     @JoinTable
     private Set<Actor> actors;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
     @JoinTable
     private Set<Genre> genres;
 
