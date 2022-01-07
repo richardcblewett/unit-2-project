@@ -5,10 +5,8 @@ import com.topmoviesapp.topmovies.model.Genre;
 import com.topmoviesapp.topmovies.model.Director;
 import com.topmoviesapp.topmovies.model.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
-import java.util.Set;
 
 public interface MovieRepository extends JpaRepository<Movie, Long> {
     Movie findByUserProfileIdAndTitleIgnoreCase(Long userProfileID, String name);
