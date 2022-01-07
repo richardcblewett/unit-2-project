@@ -2,7 +2,7 @@
 
 ### Project Description:
 This is an application where users can record and rank their favorite movies.   
-The movies will include the title, the director, the release date, and the genre.   
+The movies will include title, director, genre, runtime, and list of actors.   
 
 ## Machineries Used
 - LucidChart (creating ERD)
@@ -15,22 +15,41 @@ The movies will include the title, the director, the release date, and the genre
 - Postman (endpoint testing)
 
 ## Design Approach
+The standard packages were created first (controller, model, repository, service), but with the security package in mind.   
+We added the security and exception packages later.   
+Once we arrived at the MVP, we decided to do a bit of research on our platinum goal.     
+We decided there was enough time to hit our platinum goal and then go back and make sure the silver and gold goals were covered because that would require a lot less code refactoring.  
 
-## Unsolved Problems
+Everything involving the api we chose to work with is inside its own package. This helps us separate the interactive par t of the application from external sources of information. 
+
+The initial coding (almost "boilerplate" but not quite) was split evenly between both of us, and was coded in parallel.   
+When we got to trickier bits of code, we took a "pair programming" approach with one person driving and the other person navigating.    
+
+When researching the best way to fix an issue, we make sure we were on the same branch and referenced specific lines of code in individual files.
+
+When debugging issues, it was easiest to share the screen with another person. 
+
+## Unsolved Problems / Future Plans
+Currently, our database has the individual user's rank of a movie in the movie record itself. This means the same movie could be stored in the database multiple times, which is not ideal. (But necessary if more than one user likes the same movie.) 
+
+The user profile could be used more extensively, but we did not think expanding the profile was the most important use of our time.
+
+There is a lot more information returned by the api, so future expansion opportunities are available and can be added with minimal fuss. 
+
+The information returned to the user may contain more information than a user wants. We felt our time was better spent working with the backend rather than fine-tuning the interface. 
 
 ## Hurdles Overcome
 - Autowire is necessary, or else objects return null point exception. (Discovered when debugging code.)
 - Figuring out how to implement a many-to-many relationship in Spring. Credit to <a href="doc:introduction" target="https://stackoverflow.com/questions/42394095/many-to-many-relationship-between-two-entities-in-spring-boot/42396995">Stackoverflow</a>
 - Convert 
-## Planning Documentation
 
-### GoogleDoc(?)
+## Documentation
 
 ### ERD
 
 ![Entity Relationship Diagram](img/erd.png)
 
-## Endpoints:  
+### Endpoints:  
 
 | Request Type | URL                       | Request Body               | Request Header              | Action                                                          | Access  |   
 |--------------|---------------------------|----------------------------|-----------------------------|-----------------------------------------------------------------|---------|
@@ -79,3 +98,5 @@ The movies will include the title, the director, the release date, and the genre
    1. If pgAdmin is not installed, install the program from: https://www.pgadmin.org/download/
 4. Open up pgAdmin and create a database called "topmoviesapp"
 5. Make sure the username and password used in creation of the "topmoviesapp" database is in the repository file: "src/main/resources/application-dev.properties"
+6. Open an IDE (such as IntelliJ IDEA or VSCode) and run the project
+7. Register your user at http://localhost:9092/auth/users/register and use the documented endpoints to get started!
