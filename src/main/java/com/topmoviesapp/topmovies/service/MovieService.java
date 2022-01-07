@@ -102,12 +102,15 @@ public class MovieService {
     public Movie createMovie(Movie movieObject) {
         LOGGER.info("calling createMovie method from service");
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Movie movie = movieRepository.findByUserProfileIdAndTitle(userDetails.getUser().getUserProfile().getId(), movieObject.getTitle());
+        Movie movie = movieRepository.findByUserProfileIdAndTitleIgnoreCase(userDetails.getUser().getUserProfile().getId(), movieObject.getTitle());
         if (movie != null) {
             throw new InformationExistsException("this movie is already associated with the " + userDetails.getUser().getEmailAddress() + " user account");
         } else {
             if(movieRepository.existsByRank(movieObject.getRank()) && movieObject.getRank() != null) {
                 throw new InformationExistsException("A movie with the rank " + movieObject.getRank() + " already exists");
+            }
+            if(movieRepository.existsByTitle(movieObject.getTitle())){
+                throw new InformationExistsException("A movie with the name " + movieObject.getTitle() + " already exists");
             }
             ImdbMovie imdbMovie = movieResourceService.getMovies(movieObject.getTitle());
             Set<Actor> actorSet = new HashSet<>();
@@ -145,17 +148,6 @@ public class MovieService {
         }
     }
 
-    // This method searches for a movie given a director ID and returns that movie
-//    public Director getDirector(Long movieId) {
-//        LOGGER.info("calling getDirector method from service");
-//        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        Movie movie = movieRepository.findByUserProfileIdAndId(userDetails.getUser().getUserProfile().getId(), movieId);
-//        if (movie == null) {
-//            throw new InformationMissingException("there is no movie with an id of " + movieId + " associated with the " + userDetails.getUser().getEmailAddress() + " user account");
-//        } else {
-//            return movie.getDirector();
-//        }
-//    }
 
     public Movie deleteMovie(Long movieId) {
         LOGGER.info("calling deleteMovie method from service");

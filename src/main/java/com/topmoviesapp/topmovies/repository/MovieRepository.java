@@ -11,11 +11,12 @@ import java.util.List;
 import java.util.Set;
 
 public interface MovieRepository extends JpaRepository<Movie, Long> {
-    Movie findByUserProfileIdAndTitle(Long userProfileID, String name);
+    Movie findByUserProfileIdAndTitleIgnoreCase(Long userProfileID, String name);
     Movie findByUserProfileIdAndId(Long userProfileID, Long movieID);
     List<Movie> findByUserProfileId(Long userProfileID);
     List<Movie> findByUserProfileIdAndGenresContaining(Long userProfileID,Genre genre);
     List<Movie> findByUserProfileIdAndDirectorsContaining(Long userProfileID, Director director);
     List<Movie> findByUserProfileIdAndActorsContaining(Long userProfileID, Actor actor);
     boolean existsByRank(Long rank);
+    boolean existsByTitle(String movieName);
 }
