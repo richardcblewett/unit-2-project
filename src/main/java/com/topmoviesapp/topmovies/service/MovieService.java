@@ -101,12 +101,15 @@ public class MovieService {
     public Movie createMovie(Movie movieObject) {
         LOGGER.info("calling createMovie method from service");
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Movie movie = movieRepository.findByUserProfileIdAndTitle(userDetails.getUser().getUserProfile().getId(), movieObject.getTitle());
+        Movie movie = movieRepository.findByUserProfileIdAndTitleIgnoreCase(userDetails.getUser().getUserProfile().getId(), movieObject.getTitle());
         if (movie != null) {
             throw new InformationExistsException("this movie is already associated with the " + userDetails.getUser().getEmailAddress() + " user account");
         } else {
             if(movieRepository.existsByRank(movieObject.getRank()) && movieObject.getRank() != null) {
                 throw new InformationExistsException("A movie with the rank " + movieObject.getRank() + " already exists");
+            }
+            if(movieRepository.existsByTitle(movieObject.getTitle())){
+                throw new InformationExistsException("A movie with the name " + movieObject.getTitle() + " already exists");
             }
             ImdbMovie imdbMovie = movieResourceService.getMovies(movieObject.getTitle());
             Set<Actor> actorSet = new HashSet<>();
@@ -171,21 +174,21 @@ public class MovieService {
     public List<Movie> getMovieListByDirector(Director directorObject) {
         LOGGER.info("calling createMovie method from service");
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Director director = directorRepository.findDirectorByDirectorName(directorObject.getDirectorName());
+        Director director = directorRepository.findDirectorByDirectorNameIgnoreCase(directorObject.getDirectorName());
         if(director == null){
             throw new InformationMissingException("director with name " + directorObject.getDirectorName() + " does not exist.");
         } else {
-            return movieRepository.findByUserProfileIdAndDirectorsContaining(userDetails.getUser().getUserProfile().getId(), director);
+            return movieRepository.findByUserProfileIdAndDirectorsContainingIgnoreCase(userDetails.getUser().getUserProfile().getId(), director);
         }
     }
 
     public List<Movie> getMovieListByActor(Actor actorObject) {
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Actor actor = actorRepository.findActorByName(actorObject.getName());
+        Actor actor = actorRepository.findActorByNameIgnoreCase(actorObject.getName());
         if(actor == null){
             throw new InformationMissingException("actir with name " + actorObject.getName() + " does not exist.");
         } else {
-            return movieRepository.findByUserProfileIdAndActorsContaining(userDetails.getUser().getUserProfile().getId(), actor);
+            return movieRepository.findByUserProfileIdAndActorsContainingIgnoreCase(userDetails.getUser().getUserProfile().getId(), actor);
         }
     }
 }

@@ -16,7 +16,7 @@ public class DirectorService {
 
     // This method checks if a director already exists. If it doesn't, create one.
     public Director createDirector(String name){
-        Director director = directorRepository.findDirectorByDirectorName(name);
+        Director director = directorRepository.findDirectorByDirectorNameIgnoreCase(name);
         if (director != null) {
             return director;
         } else {
