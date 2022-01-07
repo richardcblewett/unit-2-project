@@ -1,8 +1,5 @@
 package com.topmoviesapp.topmovies.security;
 
-import com.topmoviesapp.topmovies.security.JWTRequestFilter;
-import com.topmoviesapp.topmovies.security.MyUserDetails;
-import com.topmoviesapp.topmovies.security.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;

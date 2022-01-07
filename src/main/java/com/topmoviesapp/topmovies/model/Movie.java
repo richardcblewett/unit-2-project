@@ -1,8 +1,6 @@
 package com.topmoviesapp.topmovies.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.topmoviesapp.topmovies.imdbAPI.ImdbMovie;
 
 import javax.persistence.*;
@@ -68,8 +66,6 @@ public class Movie {
         this.length = length;
         this.imdbRating = imdbRating;
         this.contentRating = contentRating;
-        //this.director = director;
-        //this.genre = genre;
         this.userProfile = userProfile;
     }
 

@@ -1,7 +1,6 @@
 package com.topmoviesapp.topmovies.service;
 
 import com.topmoviesapp.topmovies.model.Director;
-import com.topmoviesapp.topmovies.model.Genre;
 import com.topmoviesapp.topmovies.repository.DirectorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

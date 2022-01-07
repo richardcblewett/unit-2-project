@@ -1,8 +1,6 @@
 package com.topmoviesapp.topmovies.imdbAPI;
 
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 public class ImdbMovie {
@@ -39,7 +37,6 @@ public class ImdbMovie {
     public void setTitle(String title) {
         this.title = title;
     }
-
 
     public String getGenres() {
         return genres;
@@ -104,6 +101,7 @@ public class ImdbMovie {
     public void setGenreList(Set<ImdbGenre> genreList) {
         this.genreList = genreList;
     }
+
     public Set<ImdbDirector> getDirectorList() {
         return directorList;
     }
