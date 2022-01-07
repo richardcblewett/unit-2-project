@@ -19,7 +19,7 @@ public class ActorService {
     }
 
     public Actor createActor(String name){
-        Actor actor = actorRepository.findActorByName(name);
+        Actor actor = actorRepository.findActorByNameIgnoreCase(name);
         if(actor != null){
             return actor;
         } else{
