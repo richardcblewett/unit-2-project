@@ -46,4 +46,10 @@ public class SearchController {
     public List<Movie> getMovieListByActor(@RequestBody Actor actorObject){
         return movieService.getMovieListByActor(actorObject);
     }
+
+    //http://localhost:9092/api/search/rating
+    @GetMapping(path = "/rating")
+    public List<Movie> getMovieListByRating(@RequestBody Movie movieObject){
+        return movieService.getMovieListByRating(movieObject);
+    }
 }
