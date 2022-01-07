@@ -66,7 +66,7 @@ public class Movie {
 
 
     public Movie(Long id, String title, Long rank, Long releaseYear, String description, Integer length,
-                 Double imdbRating, String contentRating, /*Director director, Genre genre,*/ UserProfile userProfile) {
+                 Double imdbRating, String contentRating, UserProfile userProfile) {
         this.id = id;
         this.title = title;
         this.rank = rank;

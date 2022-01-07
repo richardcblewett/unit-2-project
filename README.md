@@ -39,9 +39,64 @@ There is a lot more information returned by the api, so future expansion opportu
 The information returned to the user may contain more information than a user wants. We felt our time was better spent working with the backend rather than fine-tuning the interface. 
 
 ## Hurdles Overcome
-- Autowire is necessary, or else objects return null point exception. (Discovered when debugging code.)
-- Figuring out how to implement a many-to-many relationship in Spring. Credit to <a href="doc:introduction" target="https://stackoverflow.com/questions/42394095/many-to-many-relationship-between-two-entities-in-spring-boot/42396995">Stackoverflow</a>
-- Convert 
+#### Hurdle 1:
+- Issue: Objects return null point exception
+- Solution: Autowire
+#### Hurdle 2:
+- Issue: Does not know how to implement a many-to-many relationship.
+- Solution: 
+```
+@Entity
+@Table(name = "movies")
+public class Movie {
+    @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(unique = true)
+    private String title;
+
+    //LINKS TO OTHER TABLES
+    
+    @ManyToMany(fetch= FetchType.EAGER, cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable
+    private Set<Director> directors;
+    
+@Entity
+@Table(name = "directors")
+public class Director {
+    @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column
+    private String directorName;
+
+    @ManyToMany(mappedBy = "directors")
+    @JsonIgnore
+    private Set<Movie> movies;
+```
+
+- Figuring out how to implement a many-to-many relationship in Spring. Credit to <a href="https://stackoverflow.com/questions/42394095/many-to-many-relationship-between-two-entities-in-spring-boot/42396995" target="_blank">Stackoverflow</a>
+#### Hurdle 3:
+- Issue: Saving the JSON response from IMDB API
+- Solution: Create a class that matches the JSON Response's properties.
+
+#### Hurdle 4: 
+- Issue: Could not delete a movie record because other tables depend on it.
+- Solution: 
+ ```    
+  @ManyToMany(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE })
+  @JoinTable
+  private Set<Director> directors;
+  ```
+- Cascade type Persist and Merge allow us to keep director entities while deleting connections between movies and directors record in the join table.
+## Planning Documentation
 
 ## Documentation
 
