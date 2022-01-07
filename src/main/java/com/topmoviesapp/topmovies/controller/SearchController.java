@@ -1,6 +1,7 @@
 package com.topmoviesapp.topmovies.controller;
 
 
+import com.topmoviesapp.topmovies.model.Actor;
 import com.topmoviesapp.topmovies.model.Genre;
 import com.topmoviesapp.topmovies.model.Director;
 import com.topmoviesapp.topmovies.model.Movie;
@@ -37,5 +38,10 @@ public class SearchController {
     @GetMapping(path = "/director")
     public List<Movie> getMovieListByDirector(@RequestBody Director directorObject){
         return movieService.getMovieListByDirector(directorObject);
+    }
+
+    @GetMapping(path = "/actor")
+    public List<Movie> getMovieListByActor(@RequestBody Actor actorObject){
+        return movieService.getMovieListByActor(actorObject);
     }
 }

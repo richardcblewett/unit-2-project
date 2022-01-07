@@ -1,5 +1,6 @@
 package com.topmoviesapp.topmovies.repository;
 
+import com.topmoviesapp.topmovies.model.Actor;
 import com.topmoviesapp.topmovies.model.Genre;
 import com.topmoviesapp.topmovies.model.Director;
 import com.topmoviesapp.topmovies.model.Movie;
@@ -16,5 +17,6 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     List<Movie> findByGenreAndUserProfileId(Genre genre, Long userProfileID);
 
     List<Movie> findByUserProfileIdAndDirectorsContaining(Long userProfileID, Director director);
+    List<Movie> findByUserProfileIdAndActorsContaining(Long userProfileID, Actor actor);
     boolean existsByRank(Long rank);
 }

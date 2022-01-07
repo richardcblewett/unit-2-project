@@ -8,6 +8,7 @@ import com.topmoviesapp.topmovies.model.Actor;
 import com.topmoviesapp.topmovies.model.Genre;
 import com.topmoviesapp.topmovies.model.Director;
 import com.topmoviesapp.topmovies.model.Movie;
+import com.topmoviesapp.topmovies.repository.ActorRepository;
 import com.topmoviesapp.topmovies.repository.DirectorRepository;
 import com.topmoviesapp.topmovies.repository.GenreRepository;
 import com.topmoviesapp.topmovies.repository.MovieRepository;
@@ -25,6 +26,7 @@ import java.util.logging.Logger;
 public class MovieService {
     private MovieRepository movieRepository;
     private GenreRepository genreRepository;
+    private ActorRepository actorRepository;
     private GenreService genreService;
     private DirectorRepository directorRepository;
     private DirectorService directorService;
@@ -62,6 +64,11 @@ public class MovieService {
     @Autowired
     public void setActorService(ActorService actorService){
         this.actorService = actorService;
+    }
+
+    @Autowired
+    public void setActorRepository(ActorRepository actorRepository){
+        this.actorRepository = actorRepository;
     }
     //get all movies
     public List<Movie> getMovies() {
@@ -191,6 +198,16 @@ public class MovieService {
             throw new InformationMissingException("director with name " + directorObject.getDirectorName() + " does not exist.");
         } else {
             return movieRepository.findByUserProfileIdAndDirectorsContaining(userDetails.getUser().getUserProfile().getId(), director);
+        }
+    }
+
+    public List<Movie> getMovieListByActor(Actor actorObject) {
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Actor actor = actorRepository.findActorByName(actorObject.getName());
+        if(actor == null){
+            throw new InformationMissingException("actir with name " + actorObject.getName() + " does not exist.");
+        } else {
+            return movieRepository.findByUserProfileIdAndActorsContaining(userDetails.getUser().getUserProfile().getId(), actor);
         }
     }
 }
