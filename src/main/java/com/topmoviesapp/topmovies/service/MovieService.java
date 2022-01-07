@@ -191,11 +191,21 @@ public class MovieService {
 
     public List<Movie> getMovieListByRating(Movie movieObject) {
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<Movie> movie = movieRepository.findByUserProfileIdAndImdbRatingGreaterThanEqual(userDetails.getUser().getUserProfile().getId(), movieObject.getImdbRating());
-        if(movie.isEmpty()){
+        List<Movie> movies = movieRepository.findByUserProfileIdAndImdbRatingGreaterThanEqual(userDetails.getUser().getUserProfile().getId(), movieObject.getImdbRating());
+        if (movies.isEmpty()) {
             throw new InformationMissingException("No movie found with rating of " + movieObject.getImdbRating());
         } else {
-            return movie;
+            return movies;
+        }
+    }
+
+    public List<Movie> getMovieListByRank(Long rankId) {
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<Movie> movies = movieRepository.findByUserProfileIdAndRankIsLessThanEqualOrderByRank(userDetails.getUser().getUserProfile().getId(), rankId);
+        if (movies.isEmpty()) {
+            throw new InformationMissingException("No movie found with a rank of " + rankId + " or higher");
+        } else {
+            return movies;
         }
     }
 }
