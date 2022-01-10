@@ -21,7 +21,10 @@ public class MovieResourceService {
         // https://imdb-api.com/en/API/Search/k_d9vzzqby/inception
         SearchResult searchResult = restTemplate.getForObject(url + apiKey + "/" + title, SearchResult.class);
         if (searchResult == null) {
-            throw new InformationMissingException("bad request");
+            throw new InformationMissingException("request returned a null value");
+        }
+        if (searchResult.results.size() == 0) {
+            throw new InformationMissingException("unable to locate a movie with the title: " + title);
         }
         String id = searchResult.results.get(0).id;
         ImdbMovie imdbMovie = restTemplate.getForObject(url2 + apiKey + "/" + id, ImdbMovie.class);
